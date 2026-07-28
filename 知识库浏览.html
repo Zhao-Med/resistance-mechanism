@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>耐药机制知识库 — 浏览</title>
+<style>
+:root {
+  --primary: #1a73e8; --primary-light: #e8f0fe;
+  --success: #1e8e3e; --success-bg: #e6f4ea;
+  --warning: #f9ab00; --warning-bg: #fef7e0;
+  --danger: #d93025; --danger-bg: #fce8e6;
+  --bg: #f8f9fa; --surface: #fff; --border: #dadce0;
+  --text: #202124; --text2: #5f6368;
+  --radius: 10px; --shadow: 0 1px 3px rgba(0,0,0,.08);
+}
+* { box-sizing: border-box; margin:0; padding:0; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+.app { max-width: 900px; margin: 0 auto; padding: 16px; }
+.header { background: var(--surface); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; box-shadow: var(--shadow); }
+.header h1 { font-size: 1.4rem; color: var(--primary); }
+.header p { font-size: .85rem; color: var(--text2); }
+.controls { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+.search { flex:1; min-width: 200px; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius); font-size: .95rem; }
+.filter { padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius); font-size: .9rem; background: #fff; cursor: pointer; }
+.count { font-size: .85rem; color: var(--text2); margin-bottom: 12px; }
+.entry { background: var(--surface); border-radius: var(--radius); padding: 20px; margin-bottom: 12px; box-shadow: var(--shadow); border-left: 4px solid var(--primary); }
+.entry-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+.entry-title { font-size: 1.05rem; font-weight: 700; }
+.entry-meta { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.badge { font-size: .75rem; padding: 2px 8px; border-radius: 12px; font-weight: 600; white-space: nowrap; }
+.badge-cat { background: var(--primary-light); color: var(--primary); }
+.badge-pri { background: var(--success-bg); color: var(--success); }
+.badge-gene { background: var(--warning-bg); color: #b06000; font-family: monospace; }
+.entry-body { font-size: .88rem; }
+.entry-body summary { cursor: pointer; font-weight: 600; color: var(--primary); padding: 4px 0; }
+.entry-body details { margin: 6px 0; }
+.rule-list { list-style: none; padding: 0; }
+.rule-list li { padding: 3px 0; font-size: .82rem; }
+.rule-tag { font-family: monospace; background: #f1f3f4; padding: 1px 6px; border-radius: 3px; font-size: .8rem; margin-right: 4px; }
+.flag { display: inline-block; background: var(--danger-bg); color: var(--danger); padding: 2px 8px; border-radius: 10px; font-size: .75rem; margin: 2px; }
+.ref { font-size: .78rem; color: var(--text2); margin-top: 8px; }
+.toc { background: var(--surface); border-radius: var(--radius); padding: 16px; margin-bottom: 16px; box-shadow: var(--shadow); }
+.toc h3 { font-size: .9rem; margin-bottom: 8px; }
+.toc a { display: block; font-size: .85rem; color: var(--primary); text-decoration: none; padding: 2px 0; }
+.toc a:hover { text-decoration: underline; }
+.no-results { text-align: center; padding: 40px; color: var(--text2); }
+@media (max-width: 600px) { .entry-header { flex-direction: column; } }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <h1>🔬 耐药机制知识库</h1>
+    <p>肺炎克雷伯菌 · 23 条目 · 最后更新 2026-07-28</p>
+  </div>
+
+  <div class="toc" id="toc">
+    <h3>📑 目录</h3>
+    <div id="toc-links"></div>
+  </div>
+
+  <div class="controls">
+    <input class="search" id="search" placeholder="🔍 搜索条目...（名称/类别/基因/关键词）" oninput="filterEntries()">
+    <select class="filter" id="catFilter" onchange="filterEntries()">
+      <option value="">全部类别</option>
+    </select>
+  </div>
+
+  <div class="count" id="count"></div>
+  <div id="entries"></div>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/knowledge-base.js"></script>
+<script>
+const entriesDiv = document.getElementById('entries');
+const tocDiv = document.getElementById('toc-links');
+const countDiv = document.getElementById('count');
+const searchInput = document.getElementById('search');
+const catFilter = document.getElementById('catFilter');
+
+// Build TOC and category filter
+const cats = new Set();
+KNOWLEDGE_BASE.forEach((e,i) => {
+  cats.add(e.category);
+  const a = document.createElement('a');
+  a.href = '#entry-' + i;
+  a.textContent = (i+1) + '. ' + e.label + ' [' + e.id + ']';
+  tocDiv.appendChild(a);
+});
+
+cats.forEach(c => {
+  const opt = document.createElement('option');
+  opt.value = c; opt.textContent = c;
+  catFilter.appendChild(opt);
+});
+
+function renderEntries(filter = '') {
+  const q = (searchInput.value || '').toLowerCase();
+  const cat = catFilter.value;
+
+  const filtered = KNOWLEDGE_BASE.filter((e,i) => {
+    if (cat && e.category !== cat) return false;
+    if (q) {
+      const haystack = (e.label + ' ' + e.category + ' ' + (e.gene||'') + ' ' + e.summary + ' ' + e.id).toLowerCase();
+      return haystack.includes(q);
+    }
+    return true;
+  });
+
+  countDiv.textContent = '显示 ' + filtered.length + ' / ' + KNOWLEDGE_BASE.length + ' 条目';
+  if (filtered.length === 0) {
+    entriesDiv.innerHTML = '<div class="no-results">未找到匹配条目</div>';
+    return;
+  }
+
+  entriesDiv.innerHTML = filtered.map(e => {
+    const idx = KNOWLEDGE_BASE.indexOf(e);
+    const p = e.pattern;
+    const rules = [];
+    if (p.allOf && p.allOf.length) rules.push('<strong>allOf:</strong> ' + p.allOf.map(r=>'<span class="rule-tag">'+r+'</span>').join(' '));
+    if (p.atLeastN) rules.push('<strong>atLeastN:</strong> ' + p.atLeastN[0] + ' of [' + p.atLeastN[1].map(r=>'<span class="rule-tag">'+r+'</span>').join(' ')+']');
+    if (p.atLeastN_2) rules.push('<strong>atLeastN_2:</strong> ' + p.atLeastN_2[0] + ' of [' + p.atLeastN_2[1].map(r=>'<span class="rule-tag">'+r+'</span>').join(' ')+']');
+    if (p.noneOf && p.noneOf.length) rules.push('<strong>noneOf:</strong> ' + p.noneOf.map(r=>'<span class="rule-tag">'+r+'</span>').join(' '));
+    if (p.supporting && p.supporting.length) rules.push('<strong>supporting:</strong> ' + p.supporting.map(r=>'<span class="rule-tag">'+r+'</span>').join(' '));
+
+    const flags = (p.flags||[]).map(f=>'<span class="flag">'+f+'</span>').join(' ');
+    const refs = (e.references||[]).join(' · ');
+
+    let diff = '';
+    if (e.differentiation) {
+      diff = Object.entries(e.differentiation).map(([k,v]) => '<li><strong>'+k.replace(/^vs_/,'vs. ')+':</strong> '+v+'</li>').join('');
+    }
+
+    return '<div class="entry" id="entry-'+idx+'">' +
+      '<div class="entry-header">' +
+        '<span class="entry-title">'+(idx+1)+'. '+e.label+'</span>' +
+        '<div class="entry-meta">' +
+          '<span class="badge badge-cat">'+e.category+'</span>' +
+          '<span class="badge badge-gene">'+(e.gene||'')+'</span>' +
+          '<span class="badge badge-pri">优先级 '+e.priority+'</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="entry-body">' +
+        '<p><strong>📌</strong> '+e.summary+'</p>' +
+        (rules.length ? '<details><summary>📊 匹配规则</summary><ul class="rule-list"><li>'+rules.join('</li><li>')+'</li></ul></details>' : '') +
+        (flags ? '<p>'+flags+'</p>' : '') +
+        '<details><summary>🔬 机制详解</summary><div style="white-space:pre-wrap;font-size:.85rem;">'+e.interpretation+'</div></details>' +
+        (diff ? '<details><summary>🆚 鉴别要点</summary><ul>'+diff+'</ul></details>' : '') +
+        (e.clinicalNote ? '<details><summary>💊 临床关联</summary><p>'+e.clinicalNote+'</p></details>' : '') +
+        (refs ? '<p class="ref">📚 '+refs+'</p>' : '') +
+      '</div>' +
+    '</div>';
+  });
+}
+
+function filterEntries() { renderEntries(); }
+
+// Initial render
+renderEntries();
+</script>
+</body>
+</html>

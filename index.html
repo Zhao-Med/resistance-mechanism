@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="description" content="耐药机制解读助手 - 上传药敏报告单，AI 解读细菌耐药背后的分子机制">
+  <title>耐药机制解读助手</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Favicon (emoji) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔬</text></svg>">
+
+  <!-- Scripts (load order matters: config → knowledge-base → analyzer → ocr → app) -->
+  <script src="js/config.js"></script>
+  <script src="js/knowledge-base.js"></script>
+  <script src="js/analyzer.js"></script>
+  <script src="js/ocr.js"></script>
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+
+<div class="app-container">
+
+  <!-- === Header === -->
+  <header class="app-header">
+    <h1>🔬 耐药机制解读助手</h1>
+    <p class="subtitle">肺炎克雷伯菌 · 药敏报告 → 耐药机制深度解读</p>
+  </header>
+
+  <!-- === 免责声明（始终可见） === -->
+  <div class="disclaimer-banner">
+    <span class="disclaimer-icon">⚠️</span>
+    <span>本工具仅用于微生物学专业学习与知识查询，所有机制解读均为教学参考，不构成临床用药建议。实际抗生素选择请严格遵循临床指南和当地耐药监测数据。</span>
+  </div>
+
+  <!-- === Tab 切换 === -->
+  <nav class="tab-nav">
+    <button class="tab-btn active" data-tab="manual">✏️ 手动输入</button>
+    <button class="tab-btn" data-tab="ocr">📷 拍照识别</button>
+  </nav>
+
+  <!-- ============================================================ -->
+  <!-- STEP 1: 输入区域 -->
+  <!-- ============================================================ -->
+  <section id="input-section">
+
+    <!-- 菌种选择 -->
+    <div class="section-panel">
+      <div class="bacteria-select-wrap">
+        <label for="bacteria-select">🧫 选择菌种</label>
+        <select id="bacteria-select" class="bacteria-select">
+          <option value="KP" selected>肺炎克雷伯菌 (Klebsiella pneumoniae)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Tab: 手动输入 -->
+    <div id="tab-manual" class="tab-panel active">
+      <div class="section-panel">
+        <h2>💊 药物敏感性选择</h2>
+        <p style="font-size:0.85rem; color:var(--color-text-secondary); margin-bottom:12px;">
+          点击每个药物旁边的 <strong>S / I / R</strong> 按钮标记药敏结果。至少选择 3 个药物的药敏结果才能开始分析。
+        </p>
+        <div id="drug-list"></div>
+
+        <div class="btn-row">
+          <button id="load-example-btn" class="btn-example">📥 加载示例数据 (KPC-2)</button>
+          <button id="analyze-btn" class="btn-primary" disabled>🔍 请至少选择 3 个药物的药敏结果</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: OCR 拍照识别 -->
+    <div id="tab-ocr" class="tab-panel">
+      <div class="section-panel">
+        <h2>📷 上传药敏报告单</h2>
+        <p style="font-size:0.85rem; color:var(--color-text-secondary); margin-bottom:12px;">
+          拍照或选择药敏报告单图片（支持打印报告，不支持手写）。AI 将自动识别菌种和药敏结果。
+          <strong>识别在您的设备本地完成，不上传任何数据。</strong>
+        </p>
+
+        <!-- 上传区域 -->
+        <div id="ocr-drop-zone" class="ocr-drop-zone">
+          <div class="ocr-icon">📸</div>
+          <p>点击此处选择图片 或 拖拽图片到此处</p>
+          <p class="ocr-hint">支持 JPG / PNG / WebP 格式，建议照片清晰、光线均匀</p>
+        </div>
+        <input type="file" id="ocr-file-input" accept="image/*" capture="environment" style="display:none;">
+
+        <!-- 进度条 -->
+        <div id="ocr-progress" class="ocr-progress">
+          <div class="ocr-progress-bar-bg">
+            <div id="ocr-progress-bar" class="ocr-progress-bar-fill"></div>
+          </div>
+          <p id="ocr-progress-text" class="ocr-progress-text">准备中...</p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- STEP 2: 审核确认区域（OCR 后显示 / 手动点击分析后也走这里） -->
+  <!-- ============================================================ -->
+  <section id="review-section" class="section-panel" style="display:none;">
+    <h2>📋 确认药敏结果</h2>
+    <p style="font-size:0.85rem; color:var(--color-text-secondary); margin-bottom:12px;">
+      以下是识别到的药敏数据。<strong>请仔细核对，如有错误请手动修正。</strong>
+      确认无误后点击"开始分析"。
+    </p>
+
+    <div id="review-table-container" class="review-table-wrap">
+      <table class="review-table">
+        <thead>
+          <tr>
+            <th>药物名称</th>
+            <th style="text-align:center;">结果</th>
+            <th style="text-align:center;">修正</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="review-tbody">
+          <tr><td colspan="4" class="empty-cell">等待数据...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- OCR 原始文本（调试用） -->
+    <details style="margin-top:12px;">
+      <summary style="font-size:0.8rem; color:var(--color-text-muted); cursor:pointer;">查看 OCR 原始识别文本</summary>
+      <div id="ocr-raw-text" class="ocr-raw-display"></div>
+    </details>
+
+    <div class="btn-row">
+      <button class="btn-secondary" onclick="App.reset()">🔄 返回重新输入</button>
+      <button id="review-analyze-btn" class="btn-primary">🔍 开始分析</button>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- STEP 3: 分析结果 -->
+  <!-- ============================================================ -->
+  <section id="results-section" style="display:none;">
+    <div id="results-container"></div>
+
+    <div class="btn-row" style="margin-top:16px;">
+      <button class="btn-secondary" onclick="App.reset()">🔄 重新分析</button>
+    </div>
+  </section>
+
+  <!-- === Footer === -->
+  <footer class="app-footer">
+    <p>耐药机制解读助手 v0.1 · 仅供学习参考 · 不构成临床建议</p>
+  </footer>
+
+</div><!-- .app-container -->
+
+</body>
+</html>
