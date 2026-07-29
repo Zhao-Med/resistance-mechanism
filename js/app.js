@@ -231,6 +231,16 @@ const App = {
 
     let html = '';
 
+    // 数据质量警告
+    const alerts = Analyzer.getQualityAlerts(this.state.drugResults);
+    if (alerts.length > 0) {
+      html += '<div class="quality-alerts">';
+      alerts.forEach(a => {
+        html += '<div class="quality-alert quality-' + a.severity + '">' + a.text + '</div>';
+      });
+      html += '</div>';
+    }
+
     // 天然耐药（菌种固有，始终展示）
     html += this._renderNaturalResistance();
 

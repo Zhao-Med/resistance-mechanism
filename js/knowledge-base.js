@@ -500,8 +500,8 @@ AmpC 酶活性位点结构与 ESBL 不同，克拉维酸不能有效结合 AmpC 
       'vs_AmpC_porin': '单独 AmpC：碳青霉烯全部 S；AmpC+孔蛋白丢失：ETP 可能 R 或 I。',
     },
 
-    clinicalNote: '产 AmpC 酶菌株，头孢吡肟在体外敏感时可能有效。碳青霉烯类仍为可靠选择。CZA 在 AmpC 产生株中通常敏感。',
-    references: ['CLSI M100 Ed35', 'PMID: 20065357 (plasmidic AmpC review)', 'EUCAST AmpC detection'],
+    clinicalNote: '产 AmpC 酶菌株，头孢吡肟在体外敏感时可能有效。碳青霉烯类仍为可靠选择。CZA 在 AmpC 产生株中通常敏感。⚠️ 如果 KP 获得的是诱导型 AmpC 基因（如 DHA-1），初次药敏可能报告头孢菌素"敏感"，但在β-内酰胺类抗生素治疗过程中可发生去阻遏突变，导致 AmpC 持续高表达而转为耐药。治疗中如出现临床无效，需复查药敏。',
+    references: ['胡付品等,《细菌药物敏感性试验执行标准和典型报告解读》第二版, Ecl Case 04 (诱导型 AmpC 去阻遏)', 'CLSI M100 Ed35', 'PMID: 20065357 (plasmidic AmpC review)', 'EUCAST AmpC detection'],
     createdBy: '【待专家审核】',
   },
 
@@ -1738,6 +1738,489 @@ Tet(X) 家族属于 FAD 依赖性单加氧酶，在 O₂ 和 NADPH 存在下，�
     clinicalNote: '怀疑异质性耐药时：① 考虑联合治疗（如碳青霉烯+多黏菌素+替加环素三联），避免单药治疗；② 提高初始接种量可提升检出率（磷霉素异质性耐药）；③ 避免在存在高菌量感染灶时单用抑菌性抗生素；④ 长时间治疗需警惕耐药亚群逐步被筛选。',
     references: ['微信公众号: 耐药君 - KP 异质性耐药综述 (2024.09.26)', 'PMID: 32633762 (KP heteroresistance review)', 'PMID: 31757471 (carbapenem heteroresistance in CRKP)'],
     createdBy: '🛋️ 公众号来源 (耐药君 2024.09.26), 核心机制已验证文献',
+  },
+
+  // ============================================================
+  // 氨基糖苷类耐药 — AAC(6') 乙酰化酶 (书本来源)
+  // ============================================================
+
+  {
+    id: 'KP-AAC6-aminoglycoside',
+    bacteria: 'KP',
+    label: '氨基糖苷耐药 (AAC(6\') 乙酰化酶)',
+    category: '氨基糖苷类耐药 / 氨基糖苷修饰酶 (AME)',
+    gene: 'aac(6\')-Ib / aac(6\')-Ib-cr (乙酰化酶, 部分变体还可修饰环丙沙星)',
+    priority: 73,
+
+    pattern: {
+      allOf: ['AMK:R'],
+      atLeastN: [0, []],
+      noneOf: [],
+      supporting: ['GEN:S', 'TOB:R'],
+      flags: ['阿米卡星耐药 + 庆大霉素敏感 → AAC(6\') 特征', 'aac(6\')-Ib-cr 变体可同时修饰环丙沙星', '质粒介导, 可水平传播', '区别于 16S-RMTase: 16S-RMT 致所有氨基糖苷均耐药']
+    },
+
+    summary: 'AAC(6\')-I 是临床最重要的氨基糖苷修饰酶（AME），通过乙酰化作用钝化阿米卡星、妥布霉素和奈替米星，但对庆大霉素活性较弱。药敏特征为 AMK R + GEN S（或 I），与 16S rRNA 甲基化酶导致的全部氨基糖苷耐药截然不同。',
+
+    interpretation: `**耐药原因：**
+氨基糖苷修饰酶（Aminoglycoside Modifying Enzymes, AMEs）通过共价修饰氨基糖苷分子的特定羟基或氨基，使其无法与细菌核糖体结合。主要有三类：乙酰转移酶（AAC）、磷酸转移酶（APH）、核苷转移酶（ANT）。
+
+**AAC(6\')-I 的特性：**
+• AAC(6\')-I 在氨基糖苷分子的 6' 位进行乙酰化
+• 底物谱：阿米卡星（AMK）✓、妥布霉素（TOB）✓、奈替米星 ✓、庆大霉素（GEN）弱/不修饰
+• **药敏特征：AMK R + GEN S → AAC(6\') 的经典模式**
+• 在黏质沙雷菌中尤其常见（AMK R + GEN S 是其特征表型）
+• 在 KP 和其他肠杆菌中也存在
+
+**AAC(6\')-Ib-cr 的特殊性（双重耐药）：**
+• aac(6\')-Ib-cr 是 aac(6\')-Ib 的点突变变体
+• 具有双功能：既可乙酰化氨基糖苷类（AMK），也可乙酰化环丙沙星（CIP）
+• CIP R + AMK R + GEN S → 高度提示 aac(6\')-Ib-cr
+
+**与 16S-RMTase 的鉴别：**
+• 16S-RMTase：AMK R + GEN R + TOB R（所有氨基糖苷均耐药）
+• AAC(6\')：AMK R + GEN S/I + TOB 可能 R（庆大霉素常保留活性）
+• 这是药敏报告上区分两种机制的最简单方法`,
+
+    differentiation: {
+      'vs_16SRMTase': '16S-RMTase：所有氨基糖苷类均耐药（AMK R + GEN R + TOB R）。AAC(6\')：庆大霉素常保留敏感（AMK R + GEN S）。这是两者的核心药敏鉴别点。',
+      'vs_aph_ant': '其他 AMEs（APH(3\')、ANT(2\")）：通常对 GEN 和 TOB 耐药，但对 AMK 可能敏感（AMK 不受大多数 AME 影响）。AMK R 但 GEN S 是 AAC(6\') 的独有特征。',
+      'vs_efflux': '外排泵导致的氨基糖苷耐药通常水平较低且影响多种药物。AAC(6\') 导致明确的高水平 AMK 耐药。',
+    },
+
+    clinicalNote: 'AAC(6\')-I 阳性菌株：阿米卡星和妥布霉素均无效。庆大霉素如体外敏感可考虑使用，但需注意 MIC 值（可能接近折点）。aac(6\')-Ib-cr 阳性菌株同时需避开环丙沙星。',
+    references: ['胡付品等,《细菌药物敏感性试验执行标准和典型报告解读》第二版, Sma Case 21 (黏质沙雷菌 AAC(6\') 特征)', 'PMID: 16436724 (AAC(6\')-Ib-cr dual function)', 'PMID: 12760834 (AME review)'],
+    createdBy: '基于胡付品主编《细菌药物敏感性试验执行标准和典型报告解读》第二版 Sma Case 21',
+  },
+
+  // ============================================================
+  // === 铜绿假单胞菌 (Pseudomonas aeruginosa, PA) ===
+  // ============================================================
+
+  {
+    id: 'PA-OprD-porin-loss',
+    bacteria: 'PA',
+    label: 'OprD 孔蛋白丢失 (碳青霉烯耐药，尤其亚胺培南)',
+    category: '碳青霉烯耐药 / 孔蛋白丢失',
+    gene: 'oprD 基因突变/缺失 (外膜孔蛋白 OprD)',
+    priority: 100,
+
+    pattern: {
+      allOf: ['IPM:R'],
+      atLeastN: [0, []],
+      noneOf: [],
+      supporting: ['MEM:S', 'MEM:I'],
+      flags: ['亚胺培南耐药 + 美罗培南敏感/中介 → OprD 丢失的特征', 'OprD 是亚胺培南进入 PA 的专属通道', '美罗培南可通过其他孔蛋白进入 → 常保留活性', 'OprD 丢失本身仅导致低水平耐药，需合并其他机制']
+    },
+
+    summary: 'OprD 是铜绿假单胞菌外膜上亚胺培南进入菌体的专属孔蛋白。oprD 基因突变或缺失 → 亚胺培南无法进入 → IPM 耐药。美罗培南进入菌体依赖 OprD 较少 → 常保留敏感。IPM R + MEM S 是 OprD 丢失的经典表型。中国 CRPA 菌株最主要的碳青霉烯耐药机制是 OprD 丢失（非碳青霉烯酶），这与中国主要通过抗菌药物管理压低碳青霉烯使用（Qin 2024, CHINET）导致的 CRPA 下降趋势一致。',
+
+    interpretation: `**耐药原因：**
+OprD 是铜绿假单胞菌外膜上的底物特异性孔蛋白，是亚胺培南进入菌体的主要（几乎是唯一）通道。美罗培南进入菌体对 OprD 的依赖性远低于亚胺培南——美罗培南可通过其他孔蛋白和非孔蛋白途径进入。
+
+**IPM vs MEM 耐药机制的根本区别：**
+| 特征 | 亚胺培南 (IPM) | 美罗培南 (MEM) |
+|---|---|---|
+| 进入通道 | 几乎完全依赖 OprD | OprD + 其他孔蛋白 |
+| OprD 丢失影响 | **IPM R** | MEM 仍可能 S |
+| MexAB 外排泵影响 | IPM **不是** MexAB 底物 | MEM **是** MexAB 底物 |
+| 获得性 MBL 影响 | 高度水解 | 高度水解 |
+
+**四种碳青霉烯耐药表型及其机制：**
+① IPM R + MEM S → **OprD 丢失**（最常见，中国 PA 耐药的主要模式）
+② IPM S + MEM R → 罕见（可能 MexAB 单独过表达，因 IPM 不被 MexAB 排出）
+③ IPM R + MEM R → OprD 丢失 + MexAB 过表达（DTR-PA），或获得性 MBL（MIC 极高 >32）
+④ IPM S + MEM S → 敏感株，或仅 AmpC 去阻遏（头孢菌素 R 但碳青霉烯 S）
+
+**中国流行病学（Qin 2024, CHINET + Luo 2024, ESKAPE in China）：**
+• CRPA 检出率呈**下降**趋势（2005→2022）—— 中国碳青霉烯管理政策取得了成效
+• 中国 PA 碳青霉烯耐药以染色体机制（OprD + AmpC + 外排泵）为主
+• 获得性碳青霉烯酶（IMP/VIM）在 PA 中检出率相对较低（<10%）
+• 这与 KP（碳青霉烯酶为主，耐药率持续上升）形成鲜明对比
+• DTR-PA（碳青霉烯 R + 头孢菌素 R + 喹诺酮 R）的检出率也呈下降趋势`,
+
+    differentiation: {
+      'vs_MexAB_efflux': 'OprD 丢失：IPM R + MEM S/I（IPM 选择性耐药）。MexAB 过表达：MEM R + CAZ R + CIP R（多药），且 IPM 不受 MexAB 影响。IPM R + MEM R → 两者并存或 MBL。',
+      'vs_MBL_acquisition': '获得性 MBL：碳青霉烯 MIC >32 μg/mL，CZA 必然 R，ATM S。OprD 丢失：碳青霉烯 MIC 8-16，CZA 可能 S。mCIM/eCIM 可辅助区分。',
+      'vs_AmpC_derepression': 'AmpC 去阻遏：头孢菌素 R + 碳青霉烯 S。OprD 丢失：IPM R + 头孢菌素可仍 S。两者合并 → DTR-PA。',
+    },
+
+    differentiation: {
+      'vs_MexAB_efflux': 'OprD 丢失：IPM R + MEM S/I（选择性影响亚胺培南）。MexAB 过表达：IPM R + MEM R + 其他 β-内酰胺类也 R（多药耐药）。两者常共存。',
+      'vs_AmpC_derepression': 'AmpC 去阻遏：头孢他啶 R + 头孢吡肟 R + 酶抑制剂复合物 R。不影响碳青霉烯类（除非合并 OprD 丢失）。',
+      'vs_MBL': '获得性 MBL（VIM/IMP）：碳青霉烯全部高度耐药 + CZA R。OprD 丢失：碳青霉烯 MIC 中度升高（8-16），CZA 通常敏感。',
+    },
+
+    clinicalNote: 'OprD 丢失菌株：亚胺培南无效，但美罗培南如体外敏感可考虑使用（需关注 MIC）。如果 MEM 也 R，需考虑合并外排泵过表达或获得性碳青霉烯酶。',
+    references: ['Giovagnorio 2023, Antibiotics 12:1621 (PA 耐药综述)', 'Quale 2006, AAC 50:1633-1641 (OprD+AmpC+外排泵交互)', 'IDSA 2023 DTR-PA 指南', 'CLSI M100 Ed35'],
+    createdBy: '基于 Giovagnorio 2023 PA 综述 + IDSA DTR-PA 指南 + Quale 2006',
+  },
+
+  {
+    id: 'PA-MexAB-efflux',
+    bacteria: 'PA',
+    label: 'MexAB-OprM 外排泵过表达 (多药耐药)',
+    category: '外排泵耐药 / RND 家族',
+    gene: 'mexAB-oprM 过表达 (调控基因 nalC/nalD/mexR 突变)',
+    priority: 95,
+
+    pattern: {
+      allOf: [],
+      atLeastN: [2, ['MEM:R', 'CAZ:R', 'FEP:R', 'TZP:R']],
+      noneOf: [],
+      supporting: ['IPM:R', 'CIP:R', 'LVX:R'],
+      flags: ['多药耐药表型: β-内酰胺+喹诺酮同时耐药', '美罗培南和头孢他啶均受影响', 'MexAB-OprM 是 PA 最重要的外排泵', 'nalC/nalD/mexR 调控突变 → 外排泵过表达']
+    },
+
+    summary: 'MexAB-OprM 是铜绿假单胞菌最重要的 RND 型外排泵，其过表达可排出多种结构无关的抗生素（美罗培南、头孢他啶、哌拉西林-他唑巴坦、氟喹诺酮类），是 PA 多药耐药的主要驱动力。',
+
+    interpretation: `**耐药原因：**
+MexAB-OprM 是组成型表达的外排泵，正常情况下受局部阻抑物 MexR、NalC、NalD 的负调控。当这些调控基因发生突变时，外排泵失去抑制 → 过表达 → 多药排出 → MDR。
+
+**外排底物谱（MexAB-OprM 过表达时耐药的药物）：**
+• β-内酰胺类：美罗培南、头孢他啶、头孢吡肟、哌拉西林-他唑巴坦（亚胺培南不受 MexAB 影响）
+• 氟喹诺酮类：环丙沙星、左氧氟沙星
+• 其他：氯霉素、四环素、新生霉素
+
+**药敏特征：**
+• MEM R + CAZ R + CIP R → 高度提示 MexAB 过表达
+• 亚胺培南可能仍敏感（IPM 不是 MexAB 的底物）→ 但常合并 OprD 丢失
+• 是 PA "DTR"（难治性耐药）表型的主要贡献者
+
+**有别于 KP：**
+• KP 主要外排泵：AcrAB-TolC（底物谱与 MexAB 有重叠但不完全相同）
+• PA 的外排泵系统更复杂：MexAB-OprM, MexCD-OprJ, MexEF-OprN, MexXY-OprM（共 4 个主要家族）`,
+    differentiation: {
+      'vs_OprD_loss': 'MexAB 过表达：MEM R + CAZ R + CIP R（多药）。OprD 丢失：IPM R + MEM S（选择性）。两者可共存。',
+      'vs_MBL': '获得性 MBL：碳青霉烯 MIC 极高（>32） + CZA R。MexAB：MEM MIC 中度升高（4-8），CZA 可能仍敏感。',
+    },
+
+    clinicalNote: 'MexAB 过表达菌株：几乎所有常用 β-内酰胺类和氟喹诺酮类均受影响。治疗选择：头孢地尔（cefiderocol）、多黏菌素、或新型 β-内酰胺/酶抑制剂组合（需先确认无 MBL）。',
+    references: ['Giovagnorio 2023, Antibiotics 12:1621', 'Quale 2006, AAC 50:1633-1641', 'IDSA 2023 DTR-PA 指南'],
+    createdBy: '基于 Giovagnorio 2023 PA 综述 + IDSA DTR-PA 指南',
+  },
+
+  // ============================================================
+  // === 鲍曼不动杆菌 (Acinetobacter baumannii, AB) ===
+  // ============================================================
+
+  {
+    id: 'AB-OXA23-carbapenemase',
+    bacteria: 'AB',
+    label: 'OXA-23 碳青霉烯酶 (鲍曼不动杆菌最主要机制)',
+    category: '碳青霉烯酶 / Class D (OXA 家族)',
+    gene: 'bla_OXA-23 (质粒或染色体, Tn2006/Tn2007 转座子)',
+    priority: 100,
+
+    pattern: {
+      allOf: ['IPM:R', 'MEM:R'],
+      atLeastN: [1, ['CAZ:R', 'FEP:R', 'TZP:R']],
+      noneOf: [],
+      supporting: ['CIP:R', 'SXT:R'],
+      flags: ['鲍曼不动杆菌碳青霉烯耐药最常见机制', 'OXA-23 是中国 CRAB 的主力 (>80%)', '通常表现为所有 β-内酰胺均耐药', '舒巴坦可能保留部分活性 (OXA 对舒巴坦敏感性不一)']
+    },
+
+    summary: 'OXA-23 是鲍曼不动杆菌中最主要的获得性碳青霉烯酶（中国 CRAB 中 >80% 携带），属于 Class D β-内酰胺酶。与染色体 OXA-51-like 不同，OXA-23 通常伴随上游插入序列 ISAbal 强启动子 → 高效表达 → 碳青霉烯明确耐药。',
+
+    interpretation: `**耐药原因：**
+OXA-23 是 Class D 丝氨酸β-内酰胺酶，可水解碳青霉烯类。bla_OXA-23 通常位于 Tn2006 或 Tn2007 转座子上，可通过质粒或染色体传播。当伴随 ISAbal（鲍曼不动杆菌特有的强启动子插入序列）时，OXA-23 表达量极大升高 → 碳青霉烯耐药。
+
+**与 KP 的 OXA 对比：**
+• KP 的 OXA-48-like：弱碳青霉烯酶，常仅 ETP R
+• AB 的 OXA-23：强碳青霉烯酶，所有碳青霉烯明确 R
+
+**鲍曼不动杆菌碳青霉烯酶家族：**
+• OXA-23-like：全球最流行（中国 >80%）
+• OXA-24/40-like：南欧/美国
+• OXA-58-like：欧洲部分地区
+• OXA-51-like：染色体天然携带（低表达时不足以导致耐药，ISAbal 插入 → 高表达 → 可单独致碳青霉烯耐药）
+
+**药敏特征：**
+• 碳青霉烯全部 R（IPM R + MEM R）
+• 所有 β-内酰胺类通常均 R（外加外排泵 + 低通透性）
+• 舒巴坦可能保留部分活性（OXA 对舒巴坦的敏感性高于其他酶抑制剂）→ CSL 或氨苄西林-舒巴坦可能 S 或 I`,
+    differentiation: {
+      'vs_OXA51': 'OXA-51-like：染色体天然携带。仅 ISAbal 插入导致的过表达才会致碳青霉烯耐药。OXA-23：获得性，明确碳青霉烯酶。两者需分子检测区分。',
+      'vs_MBL': 'AB 中 MBL（NDM/IMP/VIM）相对少见。ATM 敏感性：OXA S（OXA 不水解 ATM），MBL S（MBL 不水解 ATM）。两者均使 CZA 耐药。',
+    },
+
+    clinicalNote: 'OXA-23 产 CRAB：碳青霉烯类无效。治疗选择：舒巴坦制剂（CSL/氨苄西林-舒巴坦，大剂量）、多黏菌素、替加环素（高剂量）、头孢地尔。新型药 sulbactam-durlobactam 针对 AB 的 OXA 酶设计。',
+    references: ['Wong 2017, Clin Microbiol Rev 30:409 (AB 综述)', 'Shi 2024, Front Microbiol 15:1332108 (AB 耐药综述)', 'IDSA 2023 CRAB 指南'],
+    createdBy: '基于 Wong 2017 CMR + Shi 2024 Front Microbiol AB 综述 + IDSA CRAB 指南',
+  },
+
+  {
+    id: 'AB-colistin-lpx',
+    bacteria: 'AB',
+    label: '多黏菌素耐药 (lpxA/lpxC/lpxD 突变, LPS 缺失)',
+    category: '多黏菌素耐药 / 脂质 A 合成缺失',
+    gene: 'lpxA / lpxC / lpxD 突变 → 脂质 A 合成缺失',
+    priority: 90,
+
+    pattern: {
+      allOf: ['CST:R'],
+      atLeastN: [0, []],
+      noneOf: [],
+      supporting: [],
+      flags: ['鲍曼不动杆菌多黏菌素耐药', 'lpx 突变 → LPS 完全缺失 (有别于 KP 的 mgrB 修饰)', '常伴有体外生长缓慢 (适应性代价)', '多黏菌素 E 和 B 等效']
+    },
+
+    summary: '鲍曼不动杆菌对多黏菌素耐药的主要机制是脂质 A 合成途径基因（lpxA/lpxC/lpxD）的失活突变，导致 LPS 完全缺失 — 多黏菌素失去结合靶位。这与 KP 的 mgrB 介导的脂质 A 修饰（非缺失）机制本质不同。',
+
+    interpretation: `**耐药原因：**
+• lpxA、lpxC、lpxD 编码脂质 A 合成的关键酶
+• 任一基因失活 → 脂质 A 无法合成 → LPS 缺失
+• 多黏菌素通过结合脂质 A 发挥作用 → 无脂质 A = 天然耐药
+
+**与 KP 多黏菌素耐药机制的对比（重要！）：**
+| 特征 | KP (mgrB) | AB (lpx) |
+|---|---|---|
+| 靶位改变方式 | 脂质 A 修饰 (L-Ara4N 添加) | 脂质 A 完全缺失 |
+| LPS 状态 | LPS 仍存在（电荷改变） | LPS 完全缺失 |
+| 适应性代价 | 低 | 高（生长缓慢） |
+| 可逆性 | 可能有 | 不可逆 |
+| 传播性 | 染色体 + mcr 质粒 | 染色体 |
+
+**临床意义：**
+• lpx 突变菌株常在多黏菌素治疗压力下被筛选出来
+• 因适应性代价，停药后可能被野生型取代
+• 多黏菌素 E 和 B 存在交叉耐药（靶位相同）`,
+    differentiation: {
+      'vs_KP_mgrB': 'KP：mgrB 失活 → L-Ara4N 修饰脂质 A（LPS 仍存在，仅电荷改变）。AB：lpx 突变 → LPS 完全缺失。表型无法区分，但 LPS 缺失使 AB 对其他抗生素更敏感（外膜屏障消失）。',
+    },
+
+    clinicalNote: 'lpx 突变导致的 CRAB 多黏菌素耐药 → 多黏菌素完全无效。治疗选择极度有限：大剂量舒巴坦 + 替加环素联合，或头孢地尔。',
+    references: ['Novović 2023, Antibiotics 12:516 (AB 多黏菌素耐药综述)', 'Nhu 2016, Sci Rep 6:28291 (lpx 突变诱导与鉴定)', 'IDSA 2023 CRAB 指南'],
+    createdBy: '基于 Novović 2023 + Nhu 2016 + IDSA CRAB 指南',
+  },
+
+  // ============================================================
+  // [PA] AmpC (PDC) 去阻遏 — 来源: Elfadadny 2024 + López-Causapé 2018
+  // ============================================================
+
+  {
+    id: 'PA-AmpC-PDC-derepression',
+    bacteria: 'PA',
+    label: '染色体 AmpC (PDC) 去阻遏 (头孢菌素耐药核心)',
+    category: '染色体β-内酰胺酶 / AmpC (Pseudomonas Derived Cephalosporinase)',
+    gene: 'ampC (PDC, >500 变体, 包括 ESBL 样突变体)',
+    priority: 98,
+
+    pattern: {
+      allOf: [],
+      atLeastN: [1, ['CAZ:R', 'FEP:R']],
+      noneOf: [],
+      supporting: ['TZP:R', 'CSL:R', 'IPM:S', 'MEM:S'],
+      flags: ['头孢他啶和/或头孢吡肟耐药', '酶抑制剂复合物可能耐药', '碳青霉烯可能仍敏感 (除非合并 OprD 丢失)', 'PDC 变体 >500 种', 'ampC 上游 ampR 调控突变→去阻遏', 'D135N/R154H 突变→ESBL 样 PDC']
+    },
+
+    summary: '铜绿假单胞菌染色体携带 ampC 基因（编码 PDC — Pseudomonas Derived Cephalosporinase）。正常情况下 AmpC 低水平表达，但当调控基因 ampR 发生突变（去阻遏）时，AmpC 持续高表达 → 头孢他啶、头孢吡肟和酶抑制剂复合物耐药。部分 PDC 变体（如 D135N、R154H 突变）获得了 ESBL 样活性，可水解头孢吡肟和头孢他啶-阿维巴坦。',
+
+    interpretation: `**耐药原因：**
+铜绿假单胞菌染色体 ampC 基因编码 PDC（Pseudomonas Derived Cephalosporinase），属于 Class C β-内酰胺酶。表达受 ampR 调控基因控制：
+• 正常状态：AmpC 低水平表达（基础水平）
+• ampR 突变（去阻遏）：AmpC 持续高表达 → 头孢菌素耐药
+
+**PDC 的独特性（有别于肠杆菌 AmpC）：**
+• 已鉴定 >500 种 PDC 变体（远超肠杆菌 AmpC 的多样性）
+• 部分 PDC 获得 ESBL 样突变（如 D135N、R154H）→ 可水解头孢吡肟
+• 某些 PDC 变体可抵抗阿维巴坦抑制 → CZA 耐药
+• PDC 不能水解碳青霉烯类（区别于碳青霉烯酶）
+
+**药敏分级：**
+• AmpC 基础表达 → 仅哌拉西林耐药
+• AmpC 部分去阻遏 → 头孢他啶 R/TZP R，头孢吡肟 S
+• AmpC 完全去阻遏 + ESBL 样 PDC → 所有头孢菌素 R（含 FEP）+ CZA 可能 R
+• AmpC 去阻遏 + OprD 丢失 → 碳青霉烯 R（DTR-PA）`,
+
+    differentiation: {
+      'vs_OprD_loss': 'AmpC 去阻遏：头孢菌素 R + 碳青霉烯 S。OprD 丢失：IPM R + MEM S + 头孢菌素可仍 S。两者合并 → DTR-PA。',
+      'vs_MBL_acquisition': '获得性 MBL：碳青霉烯 MIC 极高 + CZA 必然 R。AmpC：碳青霉烯通常 S（除非合并 OprD 丢失），CZA 可能 S 或 R（取决于 PDC 变体类型）。',
+      'vs_MexAB_efflux': 'MexAB 过表达：MEM R + 喹诺酮 R。AmpC：喹诺酮可能仍 S。两者常共存。',
+    },
+
+    clinicalNote: 'AmpC 去阻遏：头孢他啶和头孢吡肟无效。碳青霉烯类如体外敏感仍可考虑（需关注是否合并 OprD 丢失）。头孢他啶-阿维巴坦对部分 PDC 变体无效（ESBL 样 PDC），需检测 CZA MIC。新型药头孢洛扎-他唑巴坦（C/T）对抗 AmpC 去阻遏菌株效果优于 CZA。',
+    references: ['Elfadadny 2024, Front Microbiol 15:1374466 (PA 耐药综述)', 'López-Causapé 2018, Front Microbiol 9:685 (PA 突变耐药组)', 'Glen 2021, Pathogens 10:1638 (PA β-内酰胺耐药)'],
+    createdBy: '基于 Elfadadny 2024 + López-Causapé 2018 PA 综述',
+  },
+
+  // ============================================================
+  // [PA] 获得性 MBL (VIM/IMP) — 来源: Yoon 2021 + Elfadadny 2024
+  // ============================================================
+
+  {
+    id: 'PA-VIM-IMP-MBL',
+    bacteria: 'PA',
+    label: '获得性 MBL (VIM/IMP 型金属β-内酰胺酶)',
+    category: '碳青霉烯酶 / Class B 金属酶 (MBL), 获得性',
+    gene: 'bla_VIM / bla_IMP (class 1 整合子基因盒)',
+    priority: 96,
+
+    pattern: {
+      allOf: ['IPM:R', 'MEM:R', 'ATM:S'],
+      atLeastN: [1, ['CAZ:R', 'FEP:R']],
+      noneOf: ['CZA:S'],
+      supporting: ['CZA:R', 'TZP:R', 'CSL:R'],
+      flags: ['碳青霉烯高度耐药 (IPM+MEM 均 R)', '氨曲南敏感 (MBL 不水解单环内酰胺)', 'CZA 必然耐药', 'VIM 全球最常见 PA 获得性碳青霉烯酶', 'IMP 在亚洲 (日本/中国) 常见', 'class 1 整合子携带→质粒或染色体']
+    },
+
+    summary: '铜绿假单胞菌可通过水平基因转移获得碳青霉烯酶基因，VIM 和 IMP 型 MBL 是最常见的获得性碳青霉烯酶。VIM 全球分布最广，IMP 在亚洲（日本、中国）常见。与染色体耐药机制（OprD+AmpC+外排泵）不同，获得性 MBL 导致极高水平的碳青霉烯耐药（MIC >32 μg/mL）。',
+
+    interpretation: `**耐药原因：**
+获得性 MBL 基因通过 mobile genetic elements（class 1 整合子、转座子、质粒）水平传播至 PA。VIM（Verona Integron-encoded MBL）和 IMP（Imipenemase）是最常见的两种。
+
+**全球流行特征（Yoon 2021 综述）：**
+• VIM：全球最常见 PA 获得性碳青霉烯酶，南欧（意大利、希腊）高流行
+• IMP：日本（1992 年首次在 PA 中发现）、中国、澳大利亚
+• NDM：PA 中相对少见（NDM 主要在肠杆菌中流行）
+• KPC：PA 中罕见但已有报道（哥伦比亚、巴西）
+• GES-5：Class A 碳青霉烯酶，在 PA 中有报道
+
+**获得性 MBL vs. 染色体耐药（PA 碳青霉烯耐药的两种路径）：**
+| 特征 | 染色体耐药 (OprD+AmpC+Mex) | 获得性 MBL (VIM/IMP) |
+|---|---|---|
+| MIC 水平 | 中度 (IPM 8-16) | 极高 (>32) |
+| MEM | 可能 S | 必然 R |
+| CZA | 可能 S | 必然 R |
+| ATM | 可能 S/I | **S (MBL 不水解)** |
+| 传播性 | 非传播 | 水平传播 |
+| DTR 定义 | 可能符合 | 一定符合 |`,
+
+    differentiation: {
+      'vs_OprD_loss': 'OprD 丢失：IPM R + MEM S/I + CZA 可能 S。MBL：IPM R + MEM R + CZA R + ATM S。碳青霉烯 MIC 水平是关键鉴别点。',
+      'vs_PDC_ESBL': 'PDC ESBL 样突变：头孢菌素 R + CZA 可能 R，但碳青霉烯常 S。MBL：碳青霉烯明确 R + CZA R + ATM S。',
+    },
+
+    clinicalNote: 'VIM/IMP 产 PA → DTR-PA（难治性耐药）。治疗选择：头孢地尔（cefiderocol）、多黏菌素、或氨曲南/阿维巴坦联合（ATM 不被 MBL 水解 + AVI 抑制可能共存的 PDC）。新型药头孢洛扎-他唑巴坦对 MBL 无效。',
+    references: ['Yoon 2021, Front Microbiol 12:614058 (PA 移动碳青霉烯酶基因)', 'Elfadadny 2024, Front Microbiol 15:1374466 (PA AMR 综述)', 'IDSA 2023 DTR-PA 指南'],
+    createdBy: '基于 Yoon 2021 + Elfadadny 2024 PA 碳青霉烯酶综述',
+  },
+
+  // ============================================================
+  // [PA] MexXY-OprM + 氨基糖苷耐药 — 来源: López-Causapé 2018
+  // ============================================================
+
+  {
+    id: 'PA-MexXY-aminoglycoside',
+    bacteria: 'PA',
+    label: 'MexXY-OprM 外排泵过表达 (氨基糖苷/头孢吡肟耐药)',
+    category: '外排泵耐药 / RND 家族 + 氨基糖苷类',
+    gene: 'mexXY-oprM 过表达 (调控基因 mexZ 突变)',
+    priority: 92,
+
+    pattern: {
+      allOf: [],
+      atLeastN: [1, ['AMK:R', 'TOB:R', 'FEP:R']],
+      noneOf: [],
+      supporting: ['GEN:R', 'CIP:S'],
+      flags: ['氨基糖苷类耐药 (尤其 AMK/TOB) + 头孢吡肟 R', 'MexXY-OprM 是 PA 排出氨基糖苷的主要泵', 'mexZ 调控突变→外排泵过表达', '常与 MexAB 过表达共存→多药耐药']
+    },
+
+    summary: 'MexXY-OprM 是铜绿假单胞菌中专一排出氨基糖苷类和头孢吡肟的 RND 型外排泵。mexZ 调控基因突变导致过表达时，阿米卡星、妥布霉素和头孢吡肟耐药。MexXY 是临床 PA 氨基糖苷耐药最常见的机制。',
+
+    interpretation: `**耐药原因：**
+• MexXY-OprM 的底物谱比其他 PA 外排泵窄，但临床意义极大
+• 主要排出：氨基糖苷类（AMK、TOB、GEN）+ 头孢吡肟（FEP）
+• 受局部阻抑物 MexZ 负调控 → mexZ 突变 → MexXY 过表达 → 耐药
+
+**PA 四个主要外排泵对比：**
+| 外排泵 | 主要底物 | 调控基因 |
+|---|---|---|
+| **MexAB-OprM** | β-内酰胺类 (MEM, CAZ, TZP) + 喹诺酮 | nalC/nalD/mexR |
+| **MexXY-OprM** | 氨基糖苷类 (AMK, TOB) + FEP | mexZ |
+| MexCD-OprJ | 头孢吡肟 + 喹诺酮 | nfxB |
+| MexEF-OprN | 喹诺酮 + 氯霉素 | mexT |
+
+**药敏线索：**
+• AMK R + TOB R + FEP R → MexXY 过表达
+• MexAB 过表达可同时存在 → MEM R + CAZ R + CIP R
+• MexXY 底物不包括碳青霉烯类 → IPM/MEM 可能 S`,
+
+    differentiation: {
+      'vs_16SRMTase': '16S-RMTase（PA 中少见）：所有氨基糖苷均 R，包括 plazomicin。MexXY：plazomicin 通常 S（plazomicin 不是 MexXY 底物）。',
+      'vs_AAC6': 'AAC(6\')-I：AMK R + GEN S + TOB 可能 R。MexXY：AMK R + GEN 常 R + TOB R。两者均致 FEP 可能 R（MexXY 排 FEP，AAC 不涉及 FEP）。',
+    },
+
+    clinicalNote: 'MexXY 过表达导致的氨基糖苷耐药：AMK、TOB、GEN 均无效。Plazomicin（新型氨基糖苷，不被 MexXY 排出）如可用可考虑。头孢吡肟也受影响，需根据药敏选择替代方案。',
+    references: ['López-Causapé 2018, Front Microbiol 9:685 (PA 突变耐药组)', 'Elfadadny 2024, Front Microbiol 15:1374466'],
+    createdBy: '基于 López-Causapé 2018 PA 突变耐药组综述',
+  },
+
+  // ============================================================
+  // [AB] AdeABC 外排泵 — 来源: Lee 2017 + Kyriakidis 2021
+  // ============================================================
+
+  {
+    id: 'AB-AdeABC-efflux',
+    bacteria: 'AB',
+    label: 'AdeABC 外排泵过表达 (鲍曼多药耐药核心)',
+    category: '外排泵耐药 / RND 家族',
+    gene: 'adeABC 过表达 (adeRS 双组分调控突变 / adeN 失活)',
+    priority: 95,
+
+    pattern: {
+      allOf: [],
+      atLeastN: [2, ['MEM:R', 'CIP:R', 'FEP:R']],
+      noneOf: [],
+      supporting: ['TZP:R', 'SXT:R', 'IPM:R'],
+      flags: ['MDR 最主要驱动力', 'AdeABC 是 RND 型三组分外排泵', 'adeRS/adeN 调控突变→过表达', '替加环素常保留活性 (非 AdeABC 主要底物)']
+    },
+
+    summary: 'AdeABC 是鲍曼不动杆菌最重要的 RND 型外排泵，过表达时可排出碳青霉烯类、头孢菌素类、氟喹诺酮类等多种抗生素，是 CRAB 多药耐药的核心机制。与染色体 OXA-51-like 和外膜低通透性（仅为大肠杆菌 1-3%）共同构成了 AB 的天然多药耐药基础。',
+
+    interpretation: `**耐药原因：**
+AdeABC 由 adeA、adeB、adeC 三组分组成。受 adeRS 双组分系统调控：adeS 突变 → AdeR 磷酸化 → adeABC 转录激活 → 过表达。底物谱覆盖碳青霉烯类、头孢菌素类、氟喹诺酮类。替加环素非主要底物。
+
+**中国 CRAB 耐药层级（Luo 2024, ESKAPE in China）：**
+1. OXA-23 获得（>80% CRAB）
+2. AdeABC 外排泵过表达（MDR 核心）
+3. ISAbal 驱动 OXA-51 过表达（染色体介导）
+4. 外膜通透性极低（大肠杆菌的 1-3%）`,
+
+    differentiation: {
+      'vs_OXA23': 'OXA-23：碳青霉烯酶。AdeABC：外排泵→碳青霉烯 R + 喹诺酮 R。两者常共存→XDR。',
+    },
+
+    clinicalNote: 'AdeABC 过表达→MDR/XDR。舒巴坦制剂可能有效（AdeABC 对其排出效率低）、替加环素、多黏菌素、头孢地尔。',
+    references: ['Lee 2017, Front Cell Infect Microbiol 7:55 (AB 生物学)', 'Kyriakidis 2021, Pathogens 10:373 (AB 耐药机制)', 'Luo 2024 (ESKAPE in China)'],
+    createdBy: '基于 Lee 2017 + Kyriakidis 2021 AB 综述 + Luo 2024 中国 ESKAPE',
+  },
+
+  // ============================================================
+  // [AB] ISAbal-OXA-51 过表达 — 染色体碳青霉烯耐药
+  // ============================================================
+
+  {
+    id: 'AB-ISAba1-OXA51',
+    bacteria: 'AB',
+    label: 'ISAbal 介导 OXA-51 过表达 (染色体碳青霉烯耐药)',
+    category: '碳青霉烯酶 / Class D (OXA-51 家族, 染色体固有)',
+    gene: 'bla_OXA-51-like + ISAbal 上游插入 (强启动子)',
+    priority: 92,
+
+    pattern: {
+      allOf: ['IPM:R', 'MEM:R'],
+      atLeastN: [0, []],
+      noneOf: [],
+      supporting: ['CZA:R'],
+      flags: ['天然携带 OXA-51-like', 'ISAbal 插入→过表达→碳青霉烯 R', '无需获得外源基因即可成为 CRAB', 'ISAbal 是 AB 特有诊断标志']
+    },
+
+    summary: '鲍曼不动杆菌染色体天然携带 bla_OXA-51-like。正常低表达不足以导致碳青霉烯耐药，但 ISAbal（AB 特有插入序列）插入上游 → 强启动子驱动 → OXA-51 过表达 → 染色体介导碳青霉烯耐药。这是 AB 独有的不依赖外源基因即可成为 CRAB 的机制。',
+
+    interpretation: `**耐药原因：**
+bla_OXA-51-like 是所有 AB 染色体上的固有基因。ISAbal 插入上游提供强启动子 → 高效表达。OXA-51 过表达水解碳青霉烯 → IPM R + MEM R。
+
+**OXA-51+ISAbal vs OXA-23 获得：**
+OXA-51：染色体固有+ISAbal→MIC 8-16。OXA-23：获得性质粒/转座子→MIC 16-64。临床处置相同。`,
+
+    differentiation: {
+      'vs_OXA23': 'OXA-51+ISAbal：染色体固有，MIC 中度 (8-16)。OXA-23：获得性，MIC 高 (16-64)。分子检测区分。两者常共存。',
+    },
+
+    clinicalNote: 'ISAbal 检测是判断染色体 OXA-51 是否参与碳青霉烯耐药的分子标志。处置同 CRAB：舒巴坦/多黏菌素/替加环素/头孢地尔。',
+    references: ['Lee 2017, Front Cell Infect Microbiol 7:55', 'Kyriakidis 2021, Pathogens 10:373', 'Wong 2017, CMR 30:409'],
+    createdBy: '基于 Lee 2017 + Kyriakidis 2021 + Wong 2017 AB 综述',
   },
 
 ];

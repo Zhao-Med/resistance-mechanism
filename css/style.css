@@ -751,6 +751,21 @@ body {
 .mt-8 { margin-top: 8px; }
 .mt-16 { margin-top: 16px; }
 
+/* --- Quality Alerts --- */
+.quality-alerts { margin-bottom: 16px; }
+.quality-alert {
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.quality-critical {
+  background: var(--color-danger-bg);
+  border-left: 4px solid var(--color-danger);
+  color: var(--color-danger);
+}
+
 /* --- Natural Resistance --- */
 .natural-resistance {
   background: var(--color-bg);

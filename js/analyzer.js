@@ -324,6 +324,29 @@ const Analyzer = {
   },
 
   /**
+   * 数据质量检查：孤立 IPM 耐药 → 可能是药敏板失效
+   */
+  getQualityAlerts(drugResults) {
+    const alerts = [];
+    const betalactams = ['AMP', 'TZP', 'CFZ', 'CXM', 'CTX', 'CRO', 'CAZ', 'FEP', 'FOX', 'CMZ', 'CTT', 'ATM', 'ETP', 'IPM', 'MEM', 'CZA', 'CSL'];
+    const betalactamTested = betalactams.filter(d => drugResults[d]);
+
+    // 仅亚胺培南耐药，其他 β-内酰胺类均敏感 → 可疑
+    if (drugResults['IPM'] === 'R' && betalactamTested.length >= 6) {
+      const otherBLs = betalactamTested.filter(d => d !== 'IPM');
+      const allOthersS = otherBLs.every(d => drugResults[d] === 'S' || drugResults[d] === 'I');
+      if (allOthersS) {
+        alerts.push({
+          severity: 'critical',
+          text: '❗ 仅亚胺培南耐药、其他 β-内酰胺类均敏感 — 结果高度可疑！可能为药敏板中亚胺培南失效。建议用 BMD 法复核亚胺培南 MIC，同时检测质控菌株。',
+          source: '胡付品等《细菌药物敏感性试验执行标准和典型报告解读》第二版, Kae Case 18'
+        });
+      }
+    }
+    return alerts;
+  },
+
+  /**
    * 获取药敏报告中的关键发现摘要
    */
   getFindingsSummary(drugResults) {

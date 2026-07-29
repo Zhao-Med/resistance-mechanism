@@ -18,6 +18,8 @@ const CONFIG = {
     // { id: 'EC', name: '大肠埃希菌', latin: 'Escherichia coli' },
     // { id: 'PA', name: '铜绿假单胞菌', latin: 'Pseudomonas aeruginosa' },
     // { id: 'AB', name: '鲍曼不动杆菌', latin: 'Acinetobacter baumannii' },
+    { id: 'PA', name: '铜绿假单胞菌', latin: 'Pseudomonas aeruginosa' },
+    { id: 'AB', name: '鲍曼不动杆菌', latin: 'Acinetobacter baumannii' },
   ],
 
   /** 天然耐药（菌种固有的耐药机制，不依赖 pattern 匹配，始终展示） */
@@ -45,6 +47,52 @@ const CONFIG = {
         detail: '部分肺炎克雷伯菌菌株对外排泵底物类药物（如替加环素）的基础 MIC 偏高。若常规药敏显示替加环素中介或耐药，建议用标准肉汤微量稀释法或含复溶液的纸片扩散法复核——因替加环素易见光氧化分解，常规药敏容易出现假中介或假耐药。',
         exception: '复核后仍耐药 → 可能为 AcrAB-TolC 过表达或 ramR/acrR 调控基因突变，参见 KP-tigecycline-efflux 条目。',
         source: '胡付品等《细菌药物敏感性试验执行标准和典型报告解读》第二版 Case 11; EUCAST intrinsic resistance database',
+      },
+    ],
+    PA: [
+      {
+        drug: 'AMP',
+        drugName: '氨苄西林/阿莫西林',
+        mechanism: '染色体 AmpC + 外排泵基础表达 + 低通透性外膜',
+        detail: '铜绿假单胞菌对几乎所有青霉素类（除哌拉西林等脲基青霉素）、第一/二代头孢菌素、头孢曲松、头孢噻肟、厄他培南、四环素类、甲氧苄啶、氯霉素天然耐药。根本原因是其外膜通透性极低（仅为大肠杆菌的 1/100）+ 染色体 AmpC β-内酰胺酶 + 多种外排泵（MexAB-OprM 等）的基础表达共同作用。',
+        source: 'CLSI M100 Ed35 Appendix B; EUCAST Intrinsic Resistance; PMID: 14693518',
+      },
+      {
+        drug: 'ETP',
+        drugName: '厄他培南',
+        mechanism: '外膜通透性极低 + 染色体 AmpC + 外排泵',
+        detail: '厄他培南对铜绿假单胞菌天然无效。碳青霉烯类中对 PA 有活性的仅亚胺培南和美罗培南（+ 多尼培南）。多尼培南未在中国上市。',
+        source: 'CLSI M100 Ed35 Appendix B',
+      },
+      {
+        drug: 'SXT',
+        drugName: '复方新诺明',
+        mechanism: '外膜通透性极低 + 固有外排',
+        detail: '甲氧苄啶-磺胺甲噁唑对铜绿假单胞菌天然耐药。',
+        source: 'CLSI M100 Ed35 Appendix B',
+      },
+      {
+        drug: 'TGC',
+        drugName: '替加环素',
+        mechanism: 'MexXY-OprM 外排泵高效排出',
+        detail: '替加环素对铜绿假单胞菌天然耐药，由 MexXY-OprM 外排泵高效排出药物所致。',
+        source: 'EUCAST Intrinsic Resistance Database',
+      },
+    ],
+    AB: [
+      {
+        drug: 'AMP',
+        drugName: '氨苄西林/所有青霉素类',
+        mechanism: '染色体 OXA-51-like β-内酰胺酶 + 外排泵 + 低通透性',
+        detail: '鲍曼不动杆菌对氨苄西林、阿莫西林、第一/二代头孢菌素、磷霉素、甲氧苄啶天然耐药。染色体携带 OXA-51-like 碳青霉烯酶基因（表达水平低时不足以导致碳青霉烯耐药，但可水解青霉素类）。此外 AdeABC 外排泵和极低的外膜通透性共同形成了天然多药耐药表型。',
+        source: 'CLSI M100 Ed35 Appendix B; EUCAST Intrinsic Resistance Database',
+      },
+      {
+        drug: 'FOS',
+        drugName: '磷霉素',
+        mechanism: '外膜通透性极低 + 缺乏甘油磷酸转运系统',
+        detail: '鲍曼不动杆菌对磷霉素天然耐药。外膜通透性极低（约为大肠杆菌的 1-3%），且缺乏有效的磷霉素摄取转运系统。',
+        source: 'CLSI M100 Ed35 Appendix B',
       },
     ],
     // 后续扩展:
