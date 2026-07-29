@@ -1800,9 +1800,9 @@ Tet(X) 家族属于 FAD 依赖性单加氧酶，在 O₂ 和 NADPH 存在下，�
   {
     id: 'PA-OprD-porin-loss',
     bacteria: 'PA',
-    label: 'OprD 孔蛋白丢失 (碳青霉烯耐药，尤其亚胺培南)',
+    label: 'OprD2 孔蛋白丢失 (碳青霉烯耐药，尤其亚胺培南)',
     category: '碳青霉烯耐药 / 孔蛋白丢失',
-    gene: 'oprD 基因突变/缺失 (外膜孔蛋白 OprD)',
+    gene: 'oprD (编码 OprD2 外膜孔蛋白) 基因突变/缺失',
     priority: 100,
 
     pattern: {
@@ -1813,10 +1813,26 @@ Tet(X) 家族属于 FAD 依赖性单加氧酶，在 O₂ 和 NADPH 存在下，�
       flags: ['亚胺培南耐药 + 美罗培南敏感/中介 → OprD 丢失的特征', 'OprD 是亚胺培南进入 PA 的专属通道', '美罗培南可通过其他孔蛋白进入 → 常保留活性', 'OprD 丢失本身仅导致低水平耐药，需合并其他机制']
     },
 
-    summary: 'OprD 是铜绿假单胞菌外膜上亚胺培南进入菌体的专属孔蛋白。oprD 基因突变或缺失 → 亚胺培南无法进入 → IPM 耐药。美罗培南进入菌体依赖 OprD 较少 → 常保留敏感。IPM R + MEM S 是 OprD 丢失的经典表型。中国 CRPA 菌株最主要的碳青霉烯耐药机制是 OprD 丢失（非碳青霉烯酶），这与中国主要通过抗菌药物管理压低碳青霉烯使用（Qin 2024, CHINET）导致的 CRPA 下降趋势一致。',
+    summary: 'OprD2 是铜绿假单胞菌外膜上亚胺培南进入菌体的特异性孔蛋白通道。oprD 基因突变/缺失导致 OprD2 蛋白丢失 → 亚胺培南无法进入菌体 → IPM 耐药。美罗培南、头孢他啶和头孢吡肟不受 OprD2 通道限制，仍可通过其他通道进入 → 保持敏感。IPM R + MEM S + CAZ S + FEP S 是 OprD2 丢失的经典表型（书本 Case 31）。',
 
     interpretation: `**耐药原因：**
-OprD 是铜绿假单胞菌外膜上的底物特异性孔蛋白，是亚胺培南进入菌体的主要（几乎是唯一）通道。美罗培南进入菌体对 OprD 的依赖性远低于亚胺培南——美罗培南可通过其他孔蛋白和非孔蛋白途径进入。
+OprD2 膜孔蛋白为亚胺培南进入铜绿假单胞菌细胞内的**特异性通道**。oprD 基因突变或缺失 → OprD2 蛋白丢失 → 亚胺培南无法通过外膜进入菌体 → IPM 耐药。美罗培南、头孢他啶和头孢吡肟等药物**不受 OprD2 通道限制**，仍可通过其他孔蛋白通道进入细胞内发挥杀菌作用 → 保持敏感。
+
+**IPM vs MEM 耐药机制的根本区别（基于书本 Case 31-34）：**
+| 特征 | 亚胺培南 (IPM) | 美罗培南 (MEM) |
+|---|---|---|
+| 进入通道 | **OprD2 特异性通道** | 多种孔蛋白通道 |
+| OprD2 丢失影响 | **IPM R** | MEM 仍 S |
+| MexAB 外排泵影响 | IPM **不是** MexAB 底物 | MEM **是** MexAB 底物 |
+| IMP 型 MBL 影响 | 可仍为 **S** (IMP 特殊) | 通常 R |
+
+**四种碳青霉烯耐药表型（书本验证）：**
+| 表型 | 机制 | 书本案例 |
+|---|---|---|
+| IPM R + MEM S + CAZ S + FEP S | **OprD2 丢失** | Case 31 |
+| IPM R + MEM R + CAZ S + FEP S | OprD2 丢失 + **外排泵高表达** | Case 32 |
+| IPM S + MEM R + CAZ R + FEP R | **外排泵高表达**（IPM 非 MexAB 底物） | Case 33 |
+| IPM S + MEM R + CAZ R + CZA R + ATM S | **IMP 型 MBL**（PA 中 IMP 可 IPM S!） | Case 34 |
 
 **IPM vs MEM 耐药机制的根本区别：**
 | 特征 | 亚胺培南 (IPM) | 美罗培南 (MEM) |
@@ -2221,6 +2237,80 @@ OXA-51：染色体固有+ISAbal→MIC 8-16。OXA-23：获得性质粒/转座子�
     clinicalNote: 'ISAbal 检测是判断染色体 OXA-51 是否参与碳青霉烯耐药的分子标志。处置同 CRAB：舒巴坦/多黏菌素/替加环素/头孢地尔。',
     references: ['Lee 2017, Front Cell Infect Microbiol 7:55', 'Kyriakidis 2021, Pathogens 10:373', 'Wong 2017, CMR 30:409'],
     createdBy: '基于 Lee 2017 + Kyriakidis 2021 + Wong 2017 AB 综述',
+  },
+
+  // ============================================================
+  // 流感嗜血杆菌 (Haemophilus influenzae, Hin)
+  // ============================================================
+
+  {
+    id: 'Hin-BSBL-TEM-ROB',
+    bacteria: 'Hin',
+    label: '流感嗜血杆菌 β-内酰胺酶 (TEM-1 / ROB-1)',
+    category: '广谱β-内酰胺酶 / Class A',
+    gene: 'bla_TEM-1 / bla_ROB-1 (质粒介导)',
+    priority: 100,
+
+    pattern: {
+      allOf: ['AMP:R'],
+      atLeastN: [0, []],
+      noneOf: [],
+      supporting: ['SAM:S', 'AMC:S', 'CRO:S', 'CXM:S', 'MEM:S'],
+      flags: ['流感嗜血杆菌 H. influenzae', 'β-内酰胺酶阳性=AMP R', 'β-内酰胺酶阴性=AMP S', '酶抑制剂复合物恢复敏感']
+    },
+
+    summary: '流感嗜血杆菌对氨苄西林的耐药主要由质粒介导的 TEM-1 或 ROB-1 型 β-内酰胺酶引起。该酶可被克拉维酸、舒巴坦抑制。β-内酰胺酶阴性菌株对氨苄西林天然敏感——这是 Hin 与 KP/PA/AB 的最根本区别（后三者对氨苄西林天然耐药）。',
+
+    interpretation: `**耐药原因：**
+流感嗜血杆菌主要通过获得质粒编码的 TEM-1 或 ROB-1 β-内酰胺酶对氨苄西林耐药。该酶属 Class A 广谱酶，可水解氨苄西林和阿莫西林，但**不能水解头孢菌素**。活性可被克拉维酸、舒巴坦完全抑制。
+
+**与 KP 天然耐药的对比（重要！）：**
+KP 对氨苄西林天然耐药（染色体 SHV-1）。Hin 对 AMP 无天然耐药——β-内酰胺酶阴性 Hin 对 AMP 天然敏感。这是两者的根本区别。`,
+
+    differentiation: {
+      'vs_BL_negative': 'β-内酰胺酶阴性：AMP S。β-内酰胺酶阳性（TEM/ROB）：AMP R + AMC/SAM S。',
+    },
+
+    clinicalNote: 'β-内酰胺酶阴性 Hin：氨苄西林/阿莫西林可用。β-内酰胺酶阳性：首选阿莫西林-克拉维酸或头孢菌素。',
+    references: ['胡付品等《细菌药物敏感性试验执行标准和典型报告解读》第二版, Hin Case 35-39', 'CLSI M100 Ed35'],
+    createdBy: '基于胡付品主编《细菌药物敏感性试验执行标准和典型报告解读》第二版 Hin 案例',
+  },
+
+  // ============================================================
+  // 卡他莫拉菌 (Moraxella catarrhalis, cat)
+  // ============================================================
+
+  {
+    id: 'Cat-BRO-beta-lactamase',
+    bacteria: 'Cat',
+    label: '卡他莫拉菌 BRO β-内酰胺酶 (95% 菌株阳性)',
+    category: '窄谱β-内酰胺酶 / BRO-1/BRO-2',
+    gene: 'bla_BRO-1 / bla_BRO-2 (染色体或质粒, 脂蛋白)',
+    priority: 100,
+
+    pattern: {
+      allOf: ['AMX:R'],
+      atLeastN: [0, []],
+      noneOf: [],
+      supporting: ['AMC:S', 'CXM:S', 'CRO:S'],
+      flags: ['卡他莫拉菌 M. catarrhalis', '95% 菌株 BRO 阳性', 'BRO 仅水解青霉素类', '克拉维酸完全抑制', '头孢菌素天然敏感']
+    },
+
+    summary: '卡他莫拉菌中约 95% 的临床分离株产生 BRO-1 或 BRO-2 型窄谱 β-内酰胺酶。BRO 酶仅水解青霉素类（阿莫西林、氨苄西林），不能水解头孢菌素类，且可被克拉维酸完全抑制。因此表现为 AMX R + AMC S（阿莫西林-克拉维酸恢复敏感）+ 所有头孢菌素 S。',
+
+    interpretation: `**耐药原因：**
+BRO-1 和 BRO-2 是卡他莫拉菌特有的窄谱 β-内酰胺酶，属于脂蛋白型 β-内酰胺酶。BRO-1 水解活性略强于 BRO-2。该酶仅水解青霉素类，对头孢菌素无效。克拉维酸可完全抑制。
+
+**流行病学：**
+约 95% 的临床分离卡他莫拉菌产 BRO 酶。因此绝大多数卡他莫拉菌表现为 AMX R + AMC S + 头孢菌素 S。只有约 5% 的 BRO 阴性菌株对 AMX 敏感。`,
+
+    differentiation: {
+      'vs_BRO_negative': 'BRO 阳性（95%）：AMX R + AMC S。BRO 阴性（5%）：AMX S。头孢菌素均 S。',
+    },
+
+    clinicalNote: 'BRO 阳性菌株 → 阿莫西林/氨苄西林无效，但阿莫西林-克拉维酸、头孢菌素、氟喹诺酮类均有效。',
+    references: ['胡付品等《细菌药物敏感性试验执行标准和典型报告解读》第二版, Cat Case 40-41', 'CLSI M100 Ed35'],
+    createdBy: '基于胡付品主编《细菌药物敏感性试验执行标准和典型报告解读》第二版 Cat 案例',
   },
 
 ];

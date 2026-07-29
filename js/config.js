@@ -20,6 +20,8 @@ const CONFIG = {
     // { id: 'AB', name: '鲍曼不动杆菌', latin: 'Acinetobacter baumannii' },
     { id: 'PA', name: '铜绿假单胞菌', latin: 'Pseudomonas aeruginosa' },
     { id: 'AB', name: '鲍曼不动杆菌', latin: 'Acinetobacter baumannii' },
+    { id: 'Hin', name: '流感嗜血杆菌', latin: 'Haemophilus influenzae' },
+    { id: 'Cat', name: '卡他莫拉菌', latin: 'Moraxella catarrhalis' },
   ],
 
   /** 天然耐药（菌种固有的耐药机制，不依赖 pattern 匹配，始终展示） */
