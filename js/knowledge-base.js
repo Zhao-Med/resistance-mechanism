@@ -1798,7 +1798,7 @@ Tet(X) 家族属于 FAD 依赖性单加氧酶，在 O₂ 和 NADPH 存在下，�
   // ============================================================
 
   {
-    id: 'PA-OprD-porin-loss',
+    id: 'PA-OprD2-porin-loss',
     bacteria: 'PA',
     label: 'OprD2 孔蛋白丢失 (碳青霉烯耐药，尤其亚胺培南)',
     category: '碳青霉烯耐药 / 孔蛋白丢失',
@@ -1810,7 +1810,7 @@ Tet(X) 家族属于 FAD 依赖性单加氧酶，在 O₂ 和 NADPH 存在下，�
       atLeastN: [0, []],
       noneOf: [],
       supporting: ['MEM:S', 'MEM:I'],
-      flags: ['亚胺培南耐药 + 美罗培南敏感/中介 → OprD 丢失的特征', 'OprD 是亚胺培南进入 PA 的专属通道', '美罗培南可通过其他孔蛋白进入 → 常保留活性', 'OprD 丢失本身仅导致低水平耐药，需合并其他机制']
+      flags: ['亚胺培南耐药 + 美罗培南敏感/中介 → OprD2 丢失的特征', 'OprD2 是亚胺培南进入 PA 的特异性通道', '美罗培南可通过其他孔蛋白进入 → 常保留活性', 'OprD2 丢失本身仅导致低水平耐药，需合并其他机制(外排泵/AmpC/碳青霉烯酶)']
     },
 
     summary: 'OprD2 是铜绿假单胞菌外膜上亚胺培南进入菌体的特异性孔蛋白通道。oprD 基因突变/缺失导致 OprD2 蛋白丢失 → 亚胺培南无法进入菌体 → IPM 耐药。美罗培南、头孢他啶和头孢吡肟不受 OprD2 通道限制，仍可通过其他通道进入 → 保持敏感。IPM R + MEM S + CAZ S + FEP S 是 OprD2 丢失的经典表型（书本 Case 31）。',
@@ -1834,41 +1834,20 @@ OprD2 膜孔蛋白为亚胺培南进入铜绿假单胞菌细胞内的**特异性
 | IPM S + MEM R + CAZ R + FEP R | **外排泵高表达**（IPM 非 MexAB 底物） | Case 33 |
 | IPM S + MEM R + CAZ R + CZA R + ATM S | **IMP 型 MBL**（PA 中 IMP 可 IPM S!） | Case 34 |
 
-**IPM vs MEM 耐药机制的根本区别：**
-| 特征 | 亚胺培南 (IPM) | 美罗培南 (MEM) |
-|---|---|---|
-| 进入通道 | 几乎完全依赖 OprD | OprD + 其他孔蛋白 |
-| OprD 丢失影响 | **IPM R** | MEM 仍可能 S |
-| MexAB 外排泵影响 | IPM **不是** MexAB 底物 | MEM **是** MexAB 底物 |
-| 获得性 MBL 影响 | 高度水解 | 高度水解 |
-
-**四种碳青霉烯耐药表型及其机制：**
-① IPM R + MEM S → **OprD 丢失**（最常见，中国 PA 耐药的主要模式）
-② IPM S + MEM R → 罕见（可能 MexAB 单独过表达，因 IPM 不被 MexAB 排出）
-③ IPM R + MEM R → OprD 丢失 + MexAB 过表达（DTR-PA），或获得性 MBL（MIC 极高 >32）
-④ IPM S + MEM S → 敏感株，或仅 AmpC 去阻遏（头孢菌素 R 但碳青霉烯 S）
-
 **中国流行病学（Qin 2024, CHINET + Luo 2024, ESKAPE in China）：**
 • CRPA 检出率呈**下降**趋势（2005→2022）—— 中国碳青霉烯管理政策取得了成效
-• 中国 PA 碳青霉烯耐药以染色体机制（OprD + AmpC + 外排泵）为主
+• 中国 PA 碳青霉烯耐药以染色体机制（OprD2 + AmpC + 外排泵）为主
 • 获得性碳青霉烯酶（IMP/VIM）在 PA 中检出率相对较低（<10%）
-• 这与 KP（碳青霉烯酶为主，耐药率持续上升）形成鲜明对比
-• DTR-PA（碳青霉烯 R + 头孢菌素 R + 喹诺酮 R）的检出率也呈下降趋势`,
+• 这与 KP（碳青霉烯酶为主，耐药率持续上升）形成鲜明对比`,
 
     differentiation: {
-      'vs_MexAB_efflux': 'OprD 丢失：IPM R + MEM S/I（IPM 选择性耐药）。MexAB 过表达：MEM R + CAZ R + CIP R（多药），且 IPM 不受 MexAB 影响。IPM R + MEM R → 两者并存或 MBL。',
-      'vs_MBL_acquisition': '获得性 MBL：碳青霉烯 MIC >32 μg/mL，CZA 必然 R，ATM S。OprD 丢失：碳青霉烯 MIC 8-16，CZA 可能 S。mCIM/eCIM 可辅助区分。',
-      'vs_AmpC_derepression': 'AmpC 去阻遏：头孢菌素 R + 碳青霉烯 S。OprD 丢失：IPM R + 头孢菌素可仍 S。两者合并 → DTR-PA。',
+      'vs_MexAB_efflux': 'OprD2 丢失：IPM R + MEM S（IPM 选择性耐药）。MexAB 过表达：MEM R + CAZ R + CIP R（多药），IPM 不受 MexAB 影响。IPM R + MEM R → OprD2 丢失+外排泵并存（Case 32），或 MBL（Case 34）。',
+      'vs_AmpC_derepression': 'AmpC 去阻遏：头孢菌素 R + 碳青霉烯 S。OprD2 丢失：IPM R + 头孢菌素可仍 S。两者合并 → DTR-PA。',
+      'vs_MBL': '获得性 MBL（IMP/VIM）：IPM R + MEM R + CAZ R + CZA R + ATM S（Case 34）。OprD2 丢失+外排泵：IPM R + MEM R + CAZ S（Case 32）。CAZ 敏感性是区分关键。',
     },
 
-    differentiation: {
-      'vs_MexAB_efflux': 'OprD 丢失：IPM R + MEM S/I（选择性影响亚胺培南）。MexAB 过表达：IPM R + MEM R + 其他 β-内酰胺类也 R（多药耐药）。两者常共存。',
-      'vs_AmpC_derepression': 'AmpC 去阻遏：头孢他啶 R + 头孢吡肟 R + 酶抑制剂复合物 R。不影响碳青霉烯类（除非合并 OprD 丢失）。',
-      'vs_MBL': '获得性 MBL（VIM/IMP）：碳青霉烯全部高度耐药 + CZA R。OprD 丢失：碳青霉烯 MIC 中度升高（8-16），CZA 通常敏感。',
-    },
-
-    clinicalNote: 'OprD 丢失菌株：亚胺培南无效，但美罗培南如体外敏感可考虑使用（需关注 MIC）。如果 MEM 也 R，需考虑合并外排泵过表达或获得性碳青霉烯酶。',
-    references: ['Giovagnorio 2023, Antibiotics 12:1621 (PA 耐药综述)', 'Quale 2006, AAC 50:1633-1641 (OprD+AmpC+外排泵交互)', 'IDSA 2023 DTR-PA 指南', 'CLSI M100 Ed35'],
+    clinicalNote: 'OprD2 丢失菌株：亚胺培南无效，但美罗培南如体外敏感可考虑使用（需关注 MIC）。如果 MEM 也 R，需考虑合并外排泵过表达或获得性碳青霉烯酶。',
+    references: ['Giovagnorio 2023, Antibiotics 12:1621 (PA 耐药综述)', 'Quale 2006, AAC 50:1633-1641 (OprD2+AmpC+外排泵交互)', 'IDSA 2023 DTR-PA 指南', 'CLSI M100 Ed35'],
     createdBy: '基于 Giovagnorio 2023 PA 综述 + IDSA DTR-PA 指南 + Quale 2006',
   },
 
@@ -1900,14 +1879,14 @@ MexAB-OprM 是组成型表达的外排泵，正常情况下受局部阻抑物 Me
 
 **药敏特征：**
 • MEM R + CAZ R + CIP R → 高度提示 MexAB 过表达
-• 亚胺培南可能仍敏感（IPM 不是 MexAB 的底物）→ 但常合并 OprD 丢失
+• 亚胺培南可能仍敏感（IPM 不是 MexAB 的底物）→ 但常合并 OprD2 丢失
 • 是 PA "DTR"（难治性耐药）表型的主要贡献者
 
 **有别于 KP：**
 • KP 主要外排泵：AcrAB-TolC（底物谱与 MexAB 有重叠但不完全相同）
 • PA 的外排泵系统更复杂：MexAB-OprM, MexCD-OprJ, MexEF-OprN, MexXY-OprM（共 4 个主要家族）`,
     differentiation: {
-      'vs_OprD_loss': 'MexAB 过表达：MEM R + CAZ R + CIP R（多药）。OprD 丢失：IPM R + MEM S（选择性）。两者可共存。',
+      'vs_OprD_loss': 'MexAB 过表达：MEM R + CAZ R + CIP R（多药）。OprD2 丢失：IPM R + MEM S（选择性）。两者可共存。',
       'vs_MBL': '获得性 MBL：碳青霉烯 MIC 极高（>32） + CZA R。MexAB：MEM MIC 中度升高（4-8），CZA 可能仍敏感。',
     },
 
@@ -2027,7 +2006,7 @@ OXA-23 是 Class D 丝氨酸β-内酰胺酶，可水解碳青霉烯类。bla_OXA
       atLeastN: [1, ['CAZ:R', 'FEP:R']],
       noneOf: [],
       supporting: ['TZP:R', 'CSL:R', 'IPM:S', 'MEM:S'],
-      flags: ['头孢他啶和/或头孢吡肟耐药', '酶抑制剂复合物可能耐药', '碳青霉烯可能仍敏感 (除非合并 OprD 丢失)', 'PDC 变体 >500 种', 'ampC 上游 ampR 调控突变→去阻遏', 'D135N/R154H 突变→ESBL 样 PDC']
+      flags: ['头孢他啶和/或头孢吡肟耐药', '酶抑制剂复合物可能耐药', '碳青霉烯可能仍敏感 (除非合并 OprD2 丢失)', 'PDC 变体 >500 种', 'ampC 上游 ampR 调控突变→去阻遏', 'D135N/R154H 突变→ESBL 样 PDC']
     },
 
     summary: '铜绿假单胞菌染色体携带 ampC 基因（编码 PDC — Pseudomonas Derived Cephalosporinase）。正常情况下 AmpC 低水平表达，但当调控基因 ampR 发生突变（去阻遏）时，AmpC 持续高表达 → 头孢他啶、头孢吡肟和酶抑制剂复合物耐药。部分 PDC 变体（如 D135N、R154H 突变）获得了 ESBL 样活性，可水解头孢吡肟和头孢他啶-阿维巴坦。',
@@ -2047,15 +2026,15 @@ OXA-23 是 Class D 丝氨酸β-内酰胺酶，可水解碳青霉烯类。bla_OXA
 • AmpC 基础表达 → 仅哌拉西林耐药
 • AmpC 部分去阻遏 → 头孢他啶 R/TZP R，头孢吡肟 S
 • AmpC 完全去阻遏 + ESBL 样 PDC → 所有头孢菌素 R（含 FEP）+ CZA 可能 R
-• AmpC 去阻遏 + OprD 丢失 → 碳青霉烯 R（DTR-PA）`,
+• AmpC 去阻遏 + OprD2 丢失 → 碳青霉烯 R（DTR-PA）`,
 
     differentiation: {
-      'vs_OprD_loss': 'AmpC 去阻遏：头孢菌素 R + 碳青霉烯 S。OprD 丢失：IPM R + MEM S + 头孢菌素可仍 S。两者合并 → DTR-PA。',
-      'vs_MBL_acquisition': '获得性 MBL：碳青霉烯 MIC 极高 + CZA 必然 R。AmpC：碳青霉烯通常 S（除非合并 OprD 丢失），CZA 可能 S 或 R（取决于 PDC 变体类型）。',
+      'vs_OprD_loss': 'AmpC 去阻遏：头孢菌素 R + 碳青霉烯 S。OprD2 丢失：IPM R + MEM S + 头孢菌素可仍 S。两者合并 → DTR-PA。',
+      'vs_MBL_acquisition': '获得性 MBL：碳青霉烯 MIC 极高 + CZA 必然 R。AmpC：碳青霉烯通常 S（除非合并 OprD2 丢失），CZA 可能 S 或 R（取决于 PDC 变体类型）。',
       'vs_MexAB_efflux': 'MexAB 过表达：MEM R + 喹诺酮 R。AmpC：喹诺酮可能仍 S。两者常共存。',
     },
 
-    clinicalNote: 'AmpC 去阻遏：头孢他啶和头孢吡肟无效。碳青霉烯类如体外敏感仍可考虑（需关注是否合并 OprD 丢失）。头孢他啶-阿维巴坦对部分 PDC 变体无效（ESBL 样 PDC），需检测 CZA MIC。新型药头孢洛扎-他唑巴坦（C/T）对抗 AmpC 去阻遏菌株效果优于 CZA。',
+    clinicalNote: 'AmpC 去阻遏：头孢他啶和头孢吡肟无效。碳青霉烯类如体外敏感仍可考虑（需关注是否合并 OprD2 丢失）。头孢他啶-阿维巴坦对部分 PDC 变体无效（ESBL 样 PDC），需检测 CZA MIC。新型药头孢洛扎-他唑巴坦（C/T）对抗 AmpC 去阻遏菌株效果优于 CZA。',
     references: ['Elfadadny 2024, Front Microbiol 15:1374466 (PA 耐药综述)', 'López-Causapé 2018, Front Microbiol 9:685 (PA 突变耐药组)', 'Glen 2021, Pathogens 10:1638 (PA β-内酰胺耐药)'],
     createdBy: '基于 Elfadadny 2024 + López-Causapé 2018 PA 综述',
   },
@@ -2073,14 +2052,14 @@ OXA-23 是 Class D 丝氨酸β-内酰胺酶，可水解碳青霉烯类。bla_OXA
     priority: 96,
 
     pattern: {
-      allOf: ['IPM:R', 'MEM:R', 'ATM:S'],
+      allOf: ['MEM:R', 'ATM:S'],
       atLeastN: [1, ['CAZ:R', 'FEP:R']],
       noneOf: ['CZA:S'],
-      supporting: ['CZA:R', 'TZP:R', 'CSL:R'],
-      flags: ['碳青霉烯高度耐药 (IPM+MEM 均 R)', '氨曲南敏感 (MBL 不水解单环内酰胺)', 'CZA 必然耐药', 'VIM 全球最常见 PA 获得性碳青霉烯酶', 'IMP 在亚洲 (日本/中国) 常见', 'class 1 整合子携带→质粒或染色体']
+      supporting: ['CZA:R', 'TZP:R', 'CSL:R', 'IPM:R'],
+      flags: ['碳青霉烯耐药 (MEM R)', '氨曲南敏感 (MBL 不水解单环内酰胺)', 'CZA 必然耐药', 'IMP 型可 IPM S (Case 34)', 'VIM 全球最常见 PA 获得性碳青霉烯酶', 'IMP 在亚洲 (日本/中国) 常见', 'class 1 整合子携带']
     },
 
-    summary: '铜绿假单胞菌可通过水平基因转移获得碳青霉烯酶基因，VIM 和 IMP 型 MBL 是最常见的获得性碳青霉烯酶。VIM 全球分布最广，IMP 在亚洲（日本、中国）常见。与染色体耐药机制（OprD+AmpC+外排泵）不同，获得性 MBL 导致极高水平的碳青霉烯耐药（MIC >32 μg/mL）。',
+    summary: '铜绿假单胞菌可通过水平基因转移获得碳青霉烯酶基因，VIM 和 IMP 型 MBL 是最常见的获得性碳青霉烯酶。IMP 型 MBL 在中国尤其重要——关键特征：IMP 对亚胺培南水解弱，**IPM 可仍为敏感**（Case 34）。但 MEM 一定耐药、CZA 一定耐药、ATM 一定敏感。',
 
     interpretation: `**耐药原因：**
 获得性 MBL 基因通过 mobile genetic elements（class 1 整合子、转座子、质粒）水平传播至 PA。VIM（Verona Integron-encoded MBL）和 IMP（Imipenemase）是最常见的两种。
@@ -2093,7 +2072,7 @@ OXA-23 是 Class D 丝氨酸β-内酰胺酶，可水解碳青霉烯类。bla_OXA
 • GES-5：Class A 碳青霉烯酶，在 PA 中有报道
 
 **获得性 MBL vs. 染色体耐药（PA 碳青霉烯耐药的两种路径）：**
-| 特征 | 染色体耐药 (OprD+AmpC+Mex) | 获得性 MBL (VIM/IMP) |
+| 特征 | 染色体耐药 (OprD2+AmpC+Mex) | 获得性 MBL (VIM/IMP) |
 |---|---|---|
 | MIC 水平 | 中度 (IPM 8-16) | 极高 (>32) |
 | MEM | 可能 S | 必然 R |
@@ -2103,7 +2082,7 @@ OXA-23 是 Class D 丝氨酸β-内酰胺酶，可水解碳青霉烯类。bla_OXA
 | DTR 定义 | 可能符合 | 一定符合 |`,
 
     differentiation: {
-      'vs_OprD_loss': 'OprD 丢失：IPM R + MEM S/I + CZA 可能 S。MBL：IPM R + MEM R + CZA R + ATM S。碳青霉烯 MIC 水平是关键鉴别点。',
+      'vs_OprD_loss': 'OprD2 丢失：IPM R + MEM S/I + CZA 可能 S。MBL：IPM R + MEM R + CZA R + ATM S。碳青霉烯 MIC 水平是关键鉴别点。',
       'vs_PDC_ESBL': 'PDC ESBL 样突变：头孢菌素 R + CZA 可能 R，但碳青霉烯常 S。MBL：碳青霉烯明确 R + CZA R + ATM S。',
     },
 
@@ -2244,12 +2223,45 @@ OXA-51：染色体固有+ISAbal→MIC 8-16。OXA-23：获得性质粒/转座子�
   // ============================================================
 
   {
+    id: 'Hin-BL-negative',
+    bacteria: 'Hin',
+    label: '流感嗜血杆菌 β-内酰胺酶 阴性 (野生型)',
+    category: '野生型 / β-内酰胺酶阴性',
+    gene: '— (无获得性β-内酰胺酶基因)',
+    priority: 100,
+
+    pattern: {
+      allOf: [],
+      atLeastN: [0, []],
+      noneOf: [],
+      supporting: ['AMP:S', 'AMX:S', 'SAM:S', 'AMC:S', 'CRO:S', 'CXM:S', 'MEM:S'],
+      flags: ['β-内酰胺酶 阴性', '所有β-内酰胺类天然敏感', '与 KP/PA/AB 不同: Hin 对 AMP 无天然耐药', '需确认 β-内酰胺酶检测结果为阴性']
+    },
+
+    summary: 'β-内酰胺酶阴性的流感嗜血杆菌不产生任何获得性 β-内酰胺酶，对氨苄西林、阿莫西林和所有头孢菌素天然敏感。这是 Hin 与 KP（天然 SHV-1 致 AMP R）的根本区别。',
+
+    interpretation: `**耐药原因：**
+流感嗜血杆菌不携带染色体编码的 β-内酰胺酶基因。β-内酰胺酶阴性代表未获得质粒编码的 TEM-1 或 ROB-1 β-内酰胺酶。此时氨苄西林和阿莫西林对 Hin 具有完全的抗菌活性——这一特征与 KP/PA/AB 截然不同。
+
+**临床关键：**
+β-内酰胺酶检测是 Hin 药敏试验的必做项目。阴性 → AMP S → 氨苄西林/阿莫西林是首选治疗。阳性 → 需用酶抑制剂复合物或头孢菌素。`,
+
+    differentiation: {
+      'vs_BL_positive': 'β-内酰胺酶阴性：AMP S (首选氨苄西林)。β-内酰胺酶阳性（TEM/ROB）：AMP R + AMC/SAM S (需用酶抑制剂或头孢菌素)。',
+    },
+
+    clinicalNote: 'β-内酰胺酶阴性 Hin：氨苄西林或阿莫西林是治疗首选。头孢菌素和喹诺酮类均有效但应保留用于重症或耐药株。',
+    references: ['胡付品等《细菌药物敏感性试验执行标准和典型报告解读》第二版, Hin Case 35', 'CLSI M100 Ed35'],
+    createdBy: '基于胡付品主编《细菌药物敏感性试验执行标准和典型报告解读》第二版 Hin Case 35',
+  },
+
+  {
     id: 'Hin-BSBL-TEM-ROB',
     bacteria: 'Hin',
-    label: '流感嗜血杆菌 β-内酰胺酶 (TEM-1 / ROB-1)',
+    label: '流感嗜血杆菌 β-内酰胺酶 阳性 (TEM-1 / ROB-1)',
     category: '广谱β-内酰胺酶 / Class A',
     gene: 'bla_TEM-1 / bla_ROB-1 (质粒介导)',
-    priority: 100,
+    priority: 99,
 
     pattern: {
       allOf: ['AMP:R'],
@@ -2309,6 +2321,73 @@ BRO-1 和 BRO-2 是卡他莫拉菌特有的窄谱 β-内酰胺酶，属于脂蛋
     },
 
     clinicalNote: 'BRO 阳性菌株 → 阿莫西林/氨苄西林无效，但阿莫西林-克拉维酸、头孢菌素、氟喹诺酮类均有效。',
+    references: ['胡付品等《细菌药物敏感性试验执行标准和典型报告解读》第二版, Cat Case 40-41', 'CLSI M100 Ed35'],
+    createdBy: '基于胡付品主编《细菌药物敏感性试验执行标准和典型报告解读》第二版 Cat 案例',
+  },
+
+  // ============================================================
+  // Hin β-内酰胺酶阴性 + Cat BRO-阴性 (野生型变体)
+  // ============================================================
+
+  {
+    id: 'Hin-BL-negative',
+    bacteria: 'Hin',
+    label: '流感嗜血杆菌 β-内酰胺酶 阴性 (野生型)',
+    category: '野生型 / 无获得性β-内酰胺酶',
+    gene: '— (无质粒编码 β-内酰胺酶基因)',
+    priority: 100,
+
+    pattern: {
+      allOf: [],
+      atLeastN: [0, []],
+      noneOf: [],
+      supporting: ['AMP:S', 'AMX:S', 'CRO:S', 'CXM:S', 'MEM:S'],
+      flags: ['β-内酰胺酶检测阴性', '所有β-内酰胺类天然敏感', '与 KP/PA/AB 不同: Hin 对 AMP 无天然耐药']
+    },
+
+    summary: 'β-内酰胺酶阴性的流感嗜血杆菌不产生任何获得性 β-内酰胺酶，对氨苄西林天然敏感——这是 Hin 与 KP/PA/AB 最根本的区别。β-内酰胺酶检测是 Hin 药敏的必做项目。',
+
+    interpretation: `**关键认知：**
+Hin 不携带染色体 β-内酰胺酶基因。β-内酰胺酶阴性代表未获得 TEM-1/ROB-1。此时 AMP/AMX 具有完全的临床活性 → 氨苄西林是首选治疗。
+
+β-内酰胺酶检测 → 阴性 → AMP S → 首选氨苄西林/阿莫西林。
+β-内酰胺酶检测 → 阳性 → AMP R + AMC S → 选酶抑制剂复合物或头孢菌素。`,
+
+    differentiation: {
+      'vs_BL_positive': 'β-内酰胺酶阴性：AMP S (首选氨苄西林)。阳性（TEM/ROB）：AMP R + AMC/SAM S (酶抑制剂或头孢菌素)。',
+    },
+
+    clinicalNote: 'β-内酰胺酶阴性 Hin：氨苄西林或阿莫西林是治疗首选。',
+    references: ['胡付品等《细菌药物敏感性试验执行标准和典型报告解读》第二版, Hin Case 35', 'CLSI M100 Ed35'],
+    createdBy: '基于胡付品主编《细菌药物敏感性试验执行标准和典型报告解读》第二版 Hin Case 35',
+  },
+
+  {
+    id: 'Cat-BRO-negative',
+    bacteria: 'Cat',
+    label: '卡他莫拉菌 BRO 阴性 (罕见, ~5%)',
+    category: '野生型 / 无 BRO β-内酰胺酶',
+    gene: '— (BRO 基因缺失)',
+    priority: 99,
+
+    pattern: {
+      allOf: [],
+      atLeastN: [0, []],
+      noneOf: [],
+      supporting: ['AMX:S', 'AMP:S', 'CRO:S', 'CXM:S'],
+      flags: ['BRO β-内酰胺酶阴性 (仅~5%临床株)', 'AMX/AMP 天然敏感', '所有头孢菌素敏感']
+    },
+
+    summary: '约 5% 的卡他莫拉菌临床分离株不产 BRO β-内酰胺酶。这类稀有菌株对阿莫西林和氨苄西林天然敏感，与 95% 的 BRO 阳性株（AMX R + AMC S）形成鲜明对比。',
+
+    interpretation: `**流行病学：**
+约 95% 卡他莫拉菌产 BRO-1 或 BRO-2 → AMX R + AMC S。仅约 5% 的菌株为 BRO 阴性 → AMX S。两者对所有头孢菌素均敏感。β-内酰胺酶检测阳性/阴性是区分关键。`,
+
+    differentiation: {
+      'vs_BRO_positive': 'BRO 阴性（5%）：AMX/AMP S。BRO 阳性（95%）：AMX R + AMC S。头孢菌素均 S。',
+    },
+
+    clinicalNote: 'BRO 阴性菌株 → 阿莫西林/氨苄西林可用，但需确认 β-内酰胺酶检测为阴性。',
     references: ['胡付品等《细菌药物敏感性试验执行标准和典型报告解读》第二版, Cat Case 40-41', 'CLSI M100 Ed35'],
     createdBy: '基于胡付品主编《细菌药物敏感性试验执行标准和典型报告解读》第二版 Cat 案例',
   },
