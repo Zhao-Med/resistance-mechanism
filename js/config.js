@@ -148,6 +148,13 @@ const CONFIG = {
       ]
     },
     {
+      id: 'beta_lactamase_test',
+      name: 'β-内酰胺酶检测',
+      drugs: [
+        { abbrev: 'BLA',  nameCN: 'β-内酰胺酶 (R=阳性, S=阴性)', nameEN: 'β-Lactamase (R=Pos, S=Neg)' },
+      ]
+    },
+    {
       id: 'other',
       name: '其他',
       drugs: [

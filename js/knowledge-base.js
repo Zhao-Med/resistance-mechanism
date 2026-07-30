@@ -1800,9 +1800,9 @@ Tet(X) 家族属于 FAD 依赖性单加氧酶，在 O₂ 和 NADPH 存在下，�
   {
     id: 'PA-OprD2-porin-loss',
     bacteria: 'PA',
-    label: 'OprD2 孔蛋白丢失 (碳青霉烯耐药，尤其亚胺培南)',
-    category: '碳青霉烯耐药 / 孔蛋白丢失',
-    gene: 'oprD (编码 OprD2 外膜孔蛋白) 基因突变/缺失',
+    label: 'OprD2 孔蛋白丢失 ± 外排泵高表达 (碳青霉烯耐药，尤其亚胺培南)',
+    category: '碳青霉烯耐药 / 孔蛋白丢失 + 外排泵',
+    gene: 'oprD 突变/缺失 (OprD2 孔蛋白) ± mexAB-oprM 过表达',
     priority: 100,
 
     pattern: {
@@ -1810,7 +1810,7 @@ Tet(X) 家族属于 FAD 依赖性单加氧酶，在 O₂ 和 NADPH 存在下，�
       atLeastN: [0, []],
       noneOf: [],
       supporting: ['MEM:S', 'MEM:I'],
-      flags: ['亚胺培南耐药 + 美罗培南敏感/中介 → OprD2 丢失的特征', 'OprD2 是亚胺培南进入 PA 的特异性通道', '美罗培南可通过其他孔蛋白进入 → 常保留活性', 'OprD2 丢失本身仅导致低水平耐药，需合并其他机制(外排泵/AmpC/碳青霉烯酶)']
+      flags: ['IPM R → OprD2 孔蛋白丢失', 'MEM 也 R → 合并外排泵高表达 (Case 32)', 'MEM S → 仅 OprD2 丢失 (Case 31)', 'CAZ/FEP 不受 OprD2 影响→常保持敏感']
     },
 
     summary: 'OprD2 是铜绿假单胞菌外膜上亚胺培南进入菌体的特异性孔蛋白通道。oprD 基因突变/缺失导致 OprD2 蛋白丢失 → 亚胺培南无法进入菌体 → IPM 耐药。美罗培南、头孢他啶和头孢吡肟不受 OprD2 通道限制，仍可通过其他通道进入 → 保持敏感。IPM R + MEM S + CAZ S + FEP S 是 OprD2 丢失的经典表型（书本 Case 31）。',
@@ -2264,11 +2264,11 @@ OXA-51：染色体固有+ISAbal→MIC 8-16。OXA-23：获得性质粒/转座子�
     priority: 99,
 
     pattern: {
-      allOf: ['AMP:R'],
+      allOf: ['BLA:R', 'AMP:R'],
       atLeastN: [0, []],
       noneOf: [],
       supporting: ['SAM:S', 'AMC:S', 'CRO:S', 'CXM:S', 'MEM:S'],
-      flags: ['流感嗜血杆菌 H. influenzae', 'β-内酰胺酶阳性=AMP R', 'β-内酰胺酶阴性=AMP S', '酶抑制剂复合物恢复敏感']
+      flags: ['β-内酰胺酶检测阳性', 'β-内酰胺酶阳性→AMP R', '酶抑制剂复合物恢复敏感', 'TEM-1/ROB-1 质粒介导']
     },
 
     summary: '流感嗜血杆菌对氨苄西林的耐药主要由质粒介导的 TEM-1 或 ROB-1 型 β-内酰胺酶引起。该酶可被克拉维酸、舒巴坦抑制。β-内酰胺酶阴性菌株对氨苄西林天然敏感——这是 Hin 与 KP/PA/AB 的最根本区别（后三者对氨苄西林天然耐药）。',
@@ -2301,11 +2301,11 @@ KP 对氨苄西林天然耐药（染色体 SHV-1）。Hin 对 AMP 无天然耐�
     priority: 100,
 
     pattern: {
-      allOf: ['AMX:R'],
+      allOf: ['BLA:R', 'AMX:R'],
       atLeastN: [0, []],
       noneOf: [],
       supporting: ['AMC:S', 'CXM:S', 'CRO:S'],
-      flags: ['卡他莫拉菌 M. catarrhalis', '95% 菌株 BRO 阳性', 'BRO 仅水解青霉素类', '克拉维酸完全抑制', '头孢菌素天然敏感']
+      flags: ['β-内酰胺酶检测阳性 (BRO+)', '95% 菌株 BRO 阳性', 'BRO 仅水解青霉素类', '克拉维酸完全抑制→AMC S', '头孢菌素天然敏感']
     },
 
     summary: '卡他莫拉菌中约 95% 的临床分离株产生 BRO-1 或 BRO-2 型窄谱 β-内酰胺酶。BRO 酶仅水解青霉素类（阿莫西林、氨苄西林），不能水解头孢菌素类，且可被克拉维酸完全抑制。因此表现为 AMX R + AMC S（阿莫西林-克拉维酸恢复敏感）+ 所有头孢菌素 S。',
@@ -2338,7 +2338,7 @@ BRO-1 和 BRO-2 是卡他莫拉菌特有的窄谱 β-内酰胺酶，属于脂蛋
     priority: 100,
 
     pattern: {
-      allOf: [],
+      allOf: ['BLA:S'],
       atLeastN: [0, []],
       noneOf: [],
       supporting: ['AMP:S', 'AMX:S', 'CRO:S', 'CXM:S', 'MEM:S'],
@@ -2371,11 +2371,11 @@ Hin 不携带染色体 β-内酰胺酶基因。β-内酰胺酶阴性代表未获
     priority: 99,
 
     pattern: {
-      allOf: [],
+      allOf: ['BLA:S'],
       atLeastN: [0, []],
       noneOf: [],
       supporting: ['AMX:S', 'AMP:S', 'CRO:S', 'CXM:S'],
-      flags: ['BRO β-内酰胺酶阴性 (仅~5%临床株)', 'AMX/AMP 天然敏感', '所有头孢菌素敏感']
+      flags: ['β-内酰胺酶检测阴性 (仅~5%临床株)', 'BRO 阴性→AMX/AMP S', '所有头孢菌素敏感']
     },
 
     summary: '约 5% 的卡他莫拉菌临床分离株不产 BRO β-内酰胺酶。这类稀有菌株对阿莫西林和氨苄西林天然敏感，与 95% 的 BRO 阳性株（AMX R + AMC S）形成鲜明对比。',
